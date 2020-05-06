@@ -1,7 +1,7 @@
 import { Auth } from '../actions/type';
 
 interface IInitialState {
-    session_token: null
+    tokenSession: null
 }
 
 interface IAction {
@@ -10,7 +10,7 @@ interface IAction {
 }
 
 const initialState: IInitialState = {
-    session_token: null
+    tokenSession: null
 }
 
 export const authReducer = (state = initialState, action: IAction ) => {
@@ -18,7 +18,7 @@ export const authReducer = (state = initialState, action: IAction ) => {
         case Auth.LOGIN:
             return {
                 ...state,
-                session_token: action.payload
+                tokenSession: action.payload
             }
         default:
             return state;

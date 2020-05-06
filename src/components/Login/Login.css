@@ -1,0 +1,15 @@
+.form {
+    min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form__loginInput {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 80px;
+	width: 300px;
+}
