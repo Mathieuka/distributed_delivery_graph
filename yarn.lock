@@ -1305,6 +1305,14 @@
     "@telerik/kendo-draggable" "2.0.0"
     prop-types "^15.6.0"
 
+"@progress/kendo-react-dialogs@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-react-dialogs/-/kendo-react-dialogs-3.13.0.tgz#c68980542b9bf5bf83d0a15835e15e488ca9257f"
+  integrity sha512-9yxc385nqWlf5dAs3TG7fMU1c47ewz8nd5UWT4MmSYVeS6YvPH5SPN8pmMwbLo0DCOAujvW8Gv+4wUabbh3jOg==
+  dependencies:
+    "@progress/kendo-react-common" "3.13.0"
+    prop-types "^15.6.0"
+
 "@progress/kendo-react-inputs@^3.13.0":
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@progress/kendo-react-inputs/-/kendo-react-inputs-3.13.0.tgz#73e16ee852a75079e61cfefb1abd65de4d8d30f5"
@@ -1331,7 +1339,7 @@
     "@progress/kendo-react-common" "3.13.0"
     prop-types "^15.6.0"
 
-"@progress/kendo-react-popup@3.13.0", "@progress/kendo-react-popup@^3.13.0":
+"@progress/kendo-react-popup@3.13.0":
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@progress/kendo-react-popup/-/kendo-react-popup-3.13.0.tgz#5181ded7c95ac7aac86b0783815be62360270856"
   integrity sha512-6a1rZLKRsboclH3qOZ5h/oEueaxzMkTwq6M9vPgi1FNOoWnQM9N6ktcZ04BW97pYaijFKKPe0FIgTgi/9pIcaw==
@@ -8939,11 +8947,6 @@ react@^16.13.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-
-reactjs-popup@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/reactjs-popup/-/reactjs-popup-1.5.0.tgz#09ef15daf9bf932e9adbf595f3976851c24913cf"
-  integrity sha512-9uoxUAcUomnNoBtdYXBmgsF4w46llsogE3tOvLb5IkR5MMrD6UZJK20ip9kDKXCYubSxNkdfQKqSb/c95rf/qA==
 
 read-pkg-up@^2.0.0:
   version "2.0.0"
