@@ -8,10 +8,7 @@ import { getBandwidth_Action } from '../../redux/actions/data_action';
 import { convertHumanDateToUnixTimestamp } from '../../helper/dateConverter';
 import TimelinePicker from '../TimelinePicker/TimelinePicker';
 
-import {
-  BrowserRouter as Router,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 interface IApp {
   tokenSession: string;
@@ -19,17 +16,25 @@ interface IApp {
 }
 
 const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
-
   const [isAuth, setIsAuth] = useState(false);
 
   if (!isAuth && tokenSession) {
     setIsAuth(true);
-    getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }));
   }
 
-  const request = () => {
-    getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }))
-  }
+  const timelineRequest = (
+    tokenSession: string,
+    from: { year: number; month: number; day: number },
+    to: { year: number; month: number; day: number }
+  ) => {
+    getBandwidth_Action(
+      tokenSession,
+      convertHumanDateToUnixTimestamp(
+        { year: from.year, month: from.month, day: from.day },
+        { year: to.year, month: to.month, day: to.day }
+      )
+    );
+  };
 
   return (
     <div className="App">
@@ -39,28 +44,26 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
         </Route>
         <Route path="/dashboard" exact>
           <Dashboard isAuth={isAuth} tokenSession={tokenSession} />
-          <div>blabla</div>
-          <button onClick={() => request()}>request</button>
-          <div>
-            <TimelinePicker />           
-          </div>
-
+          <TimelinePicker timelineRequest={timelineRequest} />
         </Route>
       </Router>
     </div>
   );
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {
     tokenSession: state.authReducer.tokenSession,
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
-  return bindActionCreators({
-    getBandwidth_Action
-  }, dispatch)
+  return bindActionCreators(
+    {
+      getBandwidth_Action,
+    },
+    dispatch
+  );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

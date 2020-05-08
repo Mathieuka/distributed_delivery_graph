@@ -23,7 +23,7 @@ const ConcurrentChart: FC<IConcurrentChart> = ({ cdnDate, p2pGbps }) => {
         <Chart onSeriesClick={(e) => console.log('click')} >
             <ChartTitle text="CONCURRENT VIEWERS" />
             <ChartValueAxis>
-                <ChartValueAxisItem title={{ text: "??" }} min={0} max={300} />
+                <ChartValueAxisItem title={{ text: "??" }} min={0} max={500} />
             </ChartValueAxis>
             <ChartCategoryAxis >
                 <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} />
