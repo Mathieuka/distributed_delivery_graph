@@ -12,10 +12,8 @@ export const convertUnixDateToHumanDate = (unixTimestamps: any) => {
 	return humanDates;
 };
 
-
-
 // bytes formatting
-export const convertBytesToGbps = (bytes: any, decimals = 2) => {
+export const convertBytesToGbps = (bytes: any, decimals = 3) => {
 	const k = 1024;
 	const dm = decimals < 0 ? 0 : decimals;
 	if (bytes.length) {
@@ -31,3 +29,4 @@ export const convertBytesToGbps = (bytes: any, decimals = 2) => {
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
 };
+

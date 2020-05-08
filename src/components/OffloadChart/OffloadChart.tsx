@@ -17,7 +17,7 @@ import {
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { getBandwidth_Action } from '../../redux/actions/data_action';
+import { dataSorting } from '../../helper/dataRules';
 
 interface IOffloadChart {
     cdnDate?: any[],
@@ -26,17 +26,27 @@ interface IOffloadChart {
     p2pGbps?: any[],
 }
 
-const OffloadChart: FC<IOffloadChart> = ({cdnDate, cdnGbps, p2pDate, p2pGbps}) => {
+const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pDate, p2pGbps }) => {
 
     const [displayDialog, setDisplayDialog] = useState(false);
+    let categories: any;
+    let firstSeries: any;
+    let secondSeries: any;
     
-    const state = {
-        categories: cdnDate ? cdnDate : [],// ['2.Jan', '3.Jan', '4.Jan', '5.Jan', '6.Jan', '7.Jan', '8.Jan', '9.Jan', '10.Jan', '11.Jan', '12.Jan', '13.Jan', '14.Jan', '15.Jan'],
-        firstSeries: cdnGbps ? cdnGbps: [], // [18, 37, 22, 27, 30, 57, 48, 25, 36, 45, 22, 40, 56, 40],
-        secondSeries: p2pGbps? p2pGbps : [], // [12, 18, 17, 20, 15, 22, 30, 20, 25, 38, 17, 23, 15, 30,],
-    };
-    const { categories, firstSeries, secondSeries } = state;
-    
+    if (cdnDate && cdnDate.length < 37) {
+        const { dates, cdnG, p2pG } = dataSorting(cdnDate, cdnGbps, p2pGbps);
+        categories = dates;
+        firstSeries = cdnG;
+        secondSeries = p2pG
+    }
+
+    if (cdnDate && cdnDate.length > 37) {
+        const { datesSorted, cdnGbpsSorted, p2pGbpsSorted } = dataSorting(cdnDate, cdnGbps, p2pGbps);
+        categories = datesSorted;
+        firstSeries = cdnGbpsSorted;
+        secondSeries = p2pGbpsSorted;
+    }
+
     const data1 = [57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57];
     const data2 = [38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,];
 
@@ -81,17 +91,17 @@ const OffloadChart: FC<IOffloadChart> = ({cdnDate, cdnGbps, p2pDate, p2pGbps}) =
 
 const mapStateToProps = (state: any) => {
     return {
-      cdnDate: state.dataReducer.cdn.date,
-      cdnGbps: state.dataReducer.cdn.gbps,
-      p2pDate: state.dataReducer.p2p.date,
-      p2pGbps: state.dataReducer.p2p.gbps,
+        cdnDate: state.dataReducer.cdn.date,
+        cdnGbps: state.dataReducer.cdn.gbps,
+        p2pDate: state.dataReducer.p2p.date,
+        p2pGbps: state.dataReducer.p2p.gbps,
     }
-  };
-  
-  const mapDispatchToProps = (dispatch: any) => {
+};
+
+const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-   
+
     }, dispatch)
-  };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(OffloadChart);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OffloadChart);

@@ -3,7 +3,6 @@
 const formatting = (timeStamp: number) => {
     const val = timeStamp.toString() + '000';
     const ts = parseInt(val, 10);
-    console.log('timestampe => ', ts)
     return ts;
 }
 
