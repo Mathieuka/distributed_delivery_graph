@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getBandwidth_Action } from '../../redux/actions/data_action';
 import { convertHumanDateToUnixTimestamp } from '../../helper/dateConverter';
+import TimelinePicker from '../TimelinePicker/TimelinePicker';
 
 import {
   BrowserRouter as Router,
@@ -23,6 +24,10 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
 
   if (!isAuth && tokenSession) {
     setIsAuth(true);
+    getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }));
+  }
+
+  const request = () => {
     getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }))
   }
 
@@ -33,7 +38,13 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
           <Login />
         </Route>
         <Route path="/dashboard" exact>
-          <Dashboard isAuth={isAuth} />
+          <Dashboard isAuth={isAuth} tokenSession={tokenSession} />
+          <div>blabla</div>
+          <button onClick={() => request()}>request</button>
+          <div>
+            <TimelinePicker />           
+          </div>
+
         </Route>
       </Router>
     </div>

@@ -1,27 +1,37 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import OffloadChart from '../OffloadChart/OffloadChart';
 import ConcurrentChart from '../ConcurrentChart/ConcurrentChart';
 import './Dashboard.css';
-
+import { getBandwidth_Action } from '../../redux/actions/data_action';
+import { convertHumanDateToUnixTimestamp } from '../../helper/dateConverter';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dataSorting } from '../../helper/dataRules';
 
 interface IDashboard {
     isAuth: boolean;
-    cdnDate?: any[],
-    cdnGbps?: any[],
-    p2pGbps?: any[],
+    tokenSession: any;
+    cdnDate?: any[];
+    cdnGbps?: any[];
+    p2pGbps?: any[];
 }
 
-const Dashboard: FC<IDashboard> = ({ isAuth, cdnDate, cdnGbps, p2pGbps }) => {
+const Dashboard: FC<IDashboard> = ({ isAuth, tokenSession, cdnDate, cdnGbps, p2pGbps }) => {
 
     let dates_: any;
     let cdnGbps_: any;
     let p2pGbps_: any;
     
+    // useEffect(()=> {
+    //     getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }))
+    //     console.log('useEffect')
+    //     console.log('cdnDate => ',cdnDate);
+    // })
+    // console.log('cdnDate => ',cdnDate);
+
+
     if (cdnDate && cdnDate.length) {
         const { dates, cdnG, p2pG, datesSorted, cdnGbpsSorted, p2pGbpsSorted } = dataSorting(cdnDate, cdnGbps, p2pGbps);
         dates_ = dates ? dates : datesSorted;
@@ -59,7 +69,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-
+        getBandwidth_Action
     }, dispatch)
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

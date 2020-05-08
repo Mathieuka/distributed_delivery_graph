@@ -2,8 +2,9 @@ import { Data } from './type';
 import axios from '../../axios';
 
 export const getBandwidth_Action = (session_token: string, timeline: any) => {
+	console.log('getBandwidth_Action Dispatched !!')
 	return async (dispatch: any) => {
-		console.log('timeline => ', timeline)
+		// console.log('timeline => ', timeline)
 		
 		const bandwidthBody = {
 			session_token,
