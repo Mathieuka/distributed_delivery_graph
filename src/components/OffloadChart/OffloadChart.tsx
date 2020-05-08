@@ -15,37 +15,15 @@ import {
     ChartValueAxisItem
 } from '@progress/kendo-react-charts';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { dataSorting } from '../../helper/dataRules';
-
 interface IOffloadChart {
     cdnDate?: any[],
     cdnGbps?: any[],
-    p2pDate?: any[],
     p2pGbps?: any[],
 }
 
-const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pDate, p2pGbps }) => {
+const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 
     const [displayDialog, setDisplayDialog] = useState(false);
-    let categories: any;
-    let firstSeries: any;
-    let secondSeries: any;
-    
-    if (cdnDate && cdnDate.length < 37) {
-        const { dates, cdnG, p2pG } = dataSorting(cdnDate, cdnGbps, p2pGbps);
-        categories = dates;
-        firstSeries = cdnG;
-        secondSeries = p2pG
-    }
-
-    if (cdnDate && cdnDate.length > 37) {
-        const { datesSorted, cdnGbpsSorted, p2pGbpsSorted } = dataSorting(cdnDate, cdnGbps, p2pGbps);
-        categories = datesSorted;
-        firstSeries = cdnGbpsSorted;
-        secondSeries = p2pGbpsSorted;
-    }
 
     const data1 = [57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57];
     const data2 = [38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,];
@@ -76,11 +54,11 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pDate, p2pGbps })
                         <ChartValueAxisItem title={{ text: "Gbps" }} min={0} max={300} />
                     </ChartValueAxis>
                     <ChartCategoryAxis>
-                        <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={categories} title={{ text: 'Months' }} />
+                        <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} title={{ text: 'Months' }} />
                     </ChartCategoryAxis>
                     <ChartSeries >
-                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum Troughput" opacity={0.5} color='blue' type="area" data={firstSeries} noteTextField="extremum" />
-                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum CDN contribution" opacity={0.5} color='purple' type="area" data={secondSeries} noteTextField="extremum" />
+                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum Troughput" opacity={0.5} color='blue' type="area" data={cdnGbps} noteTextField="extremum" />
+                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum CDN contribution" opacity={0.5} color='purple' type="area" data={p2pGbps} noteTextField="extremum" />
                         {/* <ChartSeriesItem type="line" data={data1} dashType="solid" color='blue' />
                         <ChartSeriesItem type="line" data={data2} dashType="solid" color='purple' /> */}
                     </ChartSeries>
@@ -89,19 +67,5 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pDate, p2pGbps })
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        cdnDate: state.dataReducer.cdn.date,
-        cdnGbps: state.dataReducer.cdn.gbps,
-        p2pDate: state.dataReducer.p2p.date,
-        p2pGbps: state.dataReducer.p2p.gbps,
-    }
-};
 
-const mapDispatchToProps = (dispatch: any) => {
-    return bindActionCreators({
-
-    }, dispatch)
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(OffloadChart);
+export default OffloadChart;

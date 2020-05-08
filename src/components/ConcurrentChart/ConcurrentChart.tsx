@@ -12,27 +12,24 @@ import {
     ChartValueAxisItem
 } from '@progress/kendo-react-charts';
 
-interface IConcurrentChart { }
+interface IConcurrentChart {
+    p2pGbps: any;
+    cdnDate: any;
+}
 
-const ConcurrentChart: FC<IConcurrentChart> = () => {
-
-    const state = {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        firstSeries: [5, 276, 5, 212, 240, 156, 98, 5, 276, 5, 212, 240, 156, 98],
-    };
-    const { categories, firstSeries } = state;
+const ConcurrentChart: FC<IConcurrentChart> = ({ cdnDate, p2pGbps }) => {
 
     return (
         <Chart onSeriesClick={(e) => console.log('click')} >
             <ChartTitle text="CONCURRENT VIEWERS" />
             <ChartValueAxis>
-                <ChartValueAxisItem title={{ text: "Miles" }} min={0} max={300} />
+                <ChartValueAxisItem title={{ text: "??" }} min={0} max={300} />
             </ChartValueAxis>
             <ChartCategoryAxis >
-                <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={categories} title={{ text: 'Months' }} />
+                <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} />
             </ChartCategoryAxis>
             <ChartSeries >
-                <ChartSeriesItem style={"smooth"} opacity={0.5} color='orange' dashType="solid" type="line" data={firstSeries} />
+                <ChartSeriesItem style={"smooth"} opacity={0.5} color='orange' dashType="solid" type="line" data={p2pGbps} />
             </ChartSeries>
         </Chart >
     );

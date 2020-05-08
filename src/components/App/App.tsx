@@ -23,7 +23,7 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
 
   if (!isAuth && tokenSession) {
     setIsAuth(true);
-    getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 24 }))
+    getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }))
   }
 
   return (
