@@ -5,14 +5,28 @@ import OffloadChart from '../OffloadChart/OffloadChart';
 import ConcurrentChart from '../ConcurrentChart/ConcurrentChart';
 import './Dashboard.css';
 
-interface IDashboard { }
+interface IDashboard {
+    isAuth: boolean;
+}
 
-const Dashboard: FC<IDashboard> = () => {
+const Dashboard: FC<IDashboard> = ({ isAuth }) => {
 
     return (
         <div>
-            <OffloadChart/>
-            <ConcurrentChart/>
+            {/* {
+                isAuth ?
+                    (<OffloadChart bandwidth={bandwidth} bandwidthSum={bandwidthSum} />)
+                    :
+                    <div>No Authenticated for display OffloadChart</div>
+            }
+            {
+                isAuth ?
+                    (<ConcurrentChart />)
+                    :
+                    <div>No Authenticated for display ConcurrentChart</div>
+            } */}
+            <OffloadChart  />
+            <ConcurrentChart />
         </div>
     );
 }
