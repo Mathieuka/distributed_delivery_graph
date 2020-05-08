@@ -29,7 +29,7 @@ const ConcurrentChart: FC<IConcurrentChart> = ({ cdnDate, p2pGbps }) => {
                 <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} />
             </ChartCategoryAxis>
             <ChartSeries >
-                <ChartSeriesItem style={"smooth"} opacity={0.5} color='orange' dashType="solid" type="line" data={p2pGbps} />
+                <ChartSeriesItem  tooltip={{ visible: true }} style={"smooth"} opacity={0.5} color='orange' dashType="solid" type="line" data={p2pGbps} />
             </ChartSeries>
         </Chart >
     );

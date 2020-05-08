@@ -4,11 +4,13 @@ import 'hammerjs';
 import OffloadChart from '../OffloadChart/OffloadChart';
 import ConcurrentChart from '../ConcurrentChart/ConcurrentChart';
 import './Dashboard.css';
-import { getBandwidth_Action } from '../../redux/actions/data_action';
+import { isSmallScreenAction } from '../../redux/actions/screen_action';
 import { convertHumanDateToUnixTimestamp } from '../../helper/dateConverter';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dataSorting } from '../../helper/dataRules';
+import TimelinePicker from '../TimelinePicker/TimelinePicker';
+
 
 interface IDashboard {
     isAuth: boolean;
@@ -16,24 +18,29 @@ interface IDashboard {
     cdnDate?: any[];
     cdnGbps?: any[];
     p2pGbps?: any[];
+    timelineRequest: any;
+    isSmallScreenAction: any;
+    isSmallScreen: any;
 }
 
-const Dashboard: FC<IDashboard> = ({ isAuth, tokenSession, cdnDate, cdnGbps, p2pGbps }) => {
+const Dashboard: FC<IDashboard> = ({ isAuth, tokenSession, cdnDate, cdnGbps, p2pGbps, timelineRequest, isSmallScreenAction, isSmallScreen }) => {
 
     let dates_: any;
     let cdnGbps_: any;
     let p2pGbps_: any;
     
-    // useEffect(()=> {
-    //     getBandwidth_Action(tokenSession, convertHumanDateToUnixTimestamp({ year: 2020, month: 4, day: 22 }, { year: 2020, month: 4, day: 23 }))
-    //     console.log('useEffect')
-    //     console.log('cdnDate => ',cdnDate);
-    // })
-    // console.log('cdnDate => ',cdnDate);
 
+    // update the number of data display in relation of the screen size
+    window.addEventListener("resize", function () {    
+        if (window.innerWidth < 1320) {
+            isSmallScreenAction(true);
+        } else {
+            isSmallScreenAction(false);
+        }
+    });
 
     if (cdnDate && cdnDate.length) {
-        const { dates, cdnG, p2pG, datesSorted, cdnGbpsSorted, p2pGbpsSorted } = dataSorting(cdnDate, cdnGbps, p2pGbps);
+        const { dates, cdnG, p2pG, datesSorted, cdnGbpsSorted, p2pGbpsSorted } = dataSorting(cdnDate, cdnGbps, p2pGbps,isSmallScreen);
         dates_ = dates ? dates : datesSorted;
         cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
         p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
@@ -55,6 +62,7 @@ const Dashboard: FC<IDashboard> = ({ isAuth, tokenSession, cdnDate, cdnGbps, p2p
             } */}
             <OffloadChart  cdnDate={dates_ ? dates_ : []} cdnGbps={cdnGbps_ ? cdnGbps_ : []} p2pGbps={p2pGbps_ ? p2pGbps_ : []}/>
             <ConcurrentChart cdnDate={dates_ ? dates_ : []} p2pGbps={p2pGbps_ ? p2pGbps_ : []}/>
+            <TimelinePicker timelineRequest={timelineRequest} cdnDate={dates_ ? dates_ : []} p2pGbps={p2pGbps_ ? p2pGbps_ : []}/>
         </div>
     );
 }
@@ -64,12 +72,13 @@ const mapStateToProps = (state: any) => {
         cdnDate: state.dataReducer.cdn.date,
         cdnGbps: state.dataReducer.cdn.gbps,
         p2pGbps: state.dataReducer.p2p.gbps,
+        isSmallScreen: state.screenReducer.isSmallScreen
     }
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-        getBandwidth_Action
+        isSmallScreenAction
     }, dispatch)
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -43,8 +43,7 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
           <Login />
         </Route>
         <Route path="/dashboard" exact>
-          <Dashboard isAuth={isAuth} tokenSession={tokenSession} />
-          <TimelinePicker timelineRequest={timelineRequest} />
+          <Dashboard isAuth={isAuth} tokenSession={tokenSession} timelineRequest={timelineRequest}/>
         </Route>
       </Router>
     </div>

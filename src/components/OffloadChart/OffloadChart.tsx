@@ -3,6 +3,7 @@ import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import './OffloadChart.css';
 import { Dialog } from '@progress/kendo-react-dialogs';
+import { Tooltip } from '@progress/kendo-react-tooltip';
 import {
     Chart,
     ChartTitle,
@@ -24,6 +25,8 @@ interface IOffloadChart {
 const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 
     const [displayDialog, setDisplayDialog] = useState(false);
+    const [tooltipVisible, setTooltipVisible] = useState(false);
+    const [tooltipXPosition, setTooltipXPosition] = useState(1253)
 
     const data1 = [57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57];
     const data2 = [38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,];
@@ -37,17 +40,30 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
     )
 
     const onPlotAreaHover = (args: any) => {
+        setTooltipXPosition(args.nativeEvent.screenX)
+        console.log('args => ', typeof args.nativeEvent.screenX);
         console.log(`Category: ${args.category}`);
         console.log(`Value: ${args.value}`);
-    }
 
+    }
+    console.log('tooltipVisible => ', tooltipVisible)
     return (
-        <div>
+        <div onClick={() => setTooltipVisible(!tooltipVisible)}>
             {
-                displayDialog ? dialog : null
+                tooltipVisible ?
+                    (<div className='tooltip' style={{ 'marginLeft': tooltipXPosition }}>
+                        <p>Date....</p>
+                        <p>p2p....</p>
+                        <p>http....</p>
+                        <hr />
+                        <p>total....</p>
+                        <p>spike....</p>
+                    </div>)
+                    : null
             }
+
             {useMemo(() => (
-                <Chart onPlotAreaHover={onPlotAreaHover} onSeriesClick={(e) => setDisplayDialog(!displayDialog)} >
+                <Chart onSeriesHover={(e) => onPlotAreaHover(e)}>
                     <ChartLegend visible={true} position={'top'} offsetX={0} offsetY={0} />
                     <ChartTitle text="CAPACITY OFFLOAD" />
                     <ChartValueAxis>
@@ -57,8 +73,8 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
                         <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} title={{ text: 'Months' }} />
                     </ChartCategoryAxis>
                     <ChartSeries >
-                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum Troughput" opacity={0.5} color='blue' type="area" data={cdnGbps} noteTextField="extremum" />
-                        <ChartSeriesItem line={{ style: 'smooth' }} name="Maximum CDN contribution" opacity={0.5} color='purple' type="area" data={p2pGbps} noteTextField="extremum" />
+                        <ChartSeriesItem tooltip={{ visible: true }} line={{ style: 'smooth' }} name="Maximum CDN contribution" opacity={0.5} color='purple' type="area" data={p2pGbps} noteTextField="extremum" />
+                        <ChartSeriesItem tooltip={{ visible: true }} line={{ style: 'smooth' }} name="Maximum Troughput" opacity={0.5} color='blue' type="area" data={cdnGbps} noteTextField="extremum" />
                         {/* <ChartSeriesItem type="line" data={data1} dashType="solid" color='blue' />
                         <ChartSeriesItem type="line" data={data2} dashType="solid" color='purple' /> */}
                     </ChartSeries>
