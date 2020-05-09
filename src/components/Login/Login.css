@@ -1,15 +1,39 @@
-.form {
-    min-height: 100vh;
+.loginScreen {
+	background: url('https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/GfRLKaE/videoblocks-rich-big-data-background_hktllg7-z_thumbnail-full01.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.formContainer {
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.form__loginInput {
+
+.form {
+	height: 200px;
+}
+
+.formInput {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 80px;
+	height: 130px;
 	width: 300px;
+}
+
+input {
+	margin-bottom: 20px;
+}
+
+.loginButton {
+	width: 133px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 15px;
 }

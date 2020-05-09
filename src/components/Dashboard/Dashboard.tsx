@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import './Dashboard.css';
 import OffloadChart from '../OffloadChart/OffloadChart';
 import ConcurrentChart from '../ConcurrentChart/ConcurrentChart';
 import { isSmallScreenAction } from '../../redux/actions/screen_action';
+import { logOutAction } from '../../redux/actions/auth_action';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dataSorting } from '../../helper/dataRules';
@@ -21,6 +22,7 @@ interface IDashboard {
 	isSmallScreen: boolean;
 	audiences: number[];
 	datesToolTip: string[];
+	logOutAction: any;
 }
 
 const Dashboard: FC<IDashboard> = ({
@@ -34,6 +36,7 @@ const Dashboard: FC<IDashboard> = ({
 	isSmallScreen,
 	audiences,
 	datesToolTip,
+	logOutAction,
 }) => {
 	let dates_: any;
 	let cdnGbps_: any;
@@ -49,7 +52,7 @@ const Dashboard: FC<IDashboard> = ({
 		}
 	});
 
-    // format data, in relation to the amount of information we want to display
+	// format data, in relation to the amount of information we want to display
 	if (cdnDate && cdnDate.length) {
 		const {
 			dates,
@@ -59,42 +62,45 @@ const Dashboard: FC<IDashboard> = ({
 			datesSorted,
 			cdnGbpsSorted,
 			p2pGbpsSorted,
-			datesToolTipSorted
+			datesToolTipSorted,
 		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen, datesToolTip);
 		dates_ = dates ? dates : datesSorted;
 		cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
 		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
-		datesToolTip_ = datesToolT ? datesToolTip : datesToolTipSorted; 
+		datesToolTip_ = datesToolT ? datesToolTip : datesToolTipSorted;
 	}
+
+	const logout = (e: any) => {
+		e.preventDefault();
+		logOutAction(tokenSession);
+		window.location.replace('https://streamroot.io/');
+	};
 
 	return (
 		<div>
-			{/* {
-                isAuth ?
-                    (<OffloadChart bandwidth={bandwidth} bandwidthSum={bandwidthSum} />)
-                    :
-                    <div>No Authenticated for display OffloadChart</div>
-            }
-            {
-                isAuth ?
-                    (<ConcurrentChart />)
-                    :
-                    <div>No Authenticated for display ConcurrentChart</div>
-            } */}
-			<OffloadChart
-				cdnDate={dates_ ? dates_ : []}
-				cdnGbps={cdnGbps_ ? cdnGbps_ : []}
-				p2pGbps={p2pGbps_ ? p2pGbps_ : []}
-				dates= {datesToolTip_ ? datesToolTip_ : []}
-			/>
-			<ConcurrentChart
-				audiences={audiences ? audiences : []}
-			/>
-			<TimelinePicker
-				timelineRequest={timelineRequest}
-				cdnDate={dates_ ? dates_ : []}
-				p2pGbps={p2pGbps_ ? p2pGbps_ : []}
-			/>
+			{isAuth ? (
+				<div>
+					<div className="buttonContainer">
+						<button onClick={(e) => logout(e)} className="logout">
+							Logout
+						</button>
+					</div>
+					<OffloadChart
+						cdnDate={dates_ ? dates_ : []}
+						cdnGbps={cdnGbps_ ? cdnGbps_ : []}
+						p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+						dates={datesToolTip_ ? datesToolTip_ : []}
+					/>
+					<ConcurrentChart audiences={audiences ? audiences : []} />
+					<TimelinePicker
+						timelineRequest={timelineRequest}
+						cdnDate={dates_ ? dates_ : []}
+						p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+					/>
+				</div>
+			) : (
+				<div>No Authenticated</div>
+			)}
 		</div>
 	);
 };
@@ -106,7 +112,7 @@ const mapStateToProps = (state: any) => {
 		p2pGbps: state.dataReducer.p2p.gbps,
 		audiences: state.dataReducer.audience?.audiences,
 		isSmallScreen: state.screenReducer.isSmallScreen,
-		datesToolTip: state.dataReducer.dates
+		datesToolTip: state.dataReducer.dates,
 	};
 };
 
@@ -114,6 +120,7 @@ const mapDispatchToProps = (dispatch: any) => {
 	return bindActionCreators(
 		{
 			isSmallScreenAction,
+			logOutAction,
 		},
 		dispatch
 	);

@@ -12,7 +12,6 @@ interface ILogin {
 
 const Login: FC<ILogin> = ({ logInAction, tokenSession }) => {
 	const history = useHistory();
-
 	useEffect(() => {
 		if (tokenSession) {
 			history.push('/dashboard');
@@ -28,25 +27,29 @@ const Login: FC<ILogin> = ({ logInAction, tokenSession }) => {
 	};
 
 	return (
-		<form className="form">
-			<div className="form__loginInput">
-				<input
-					type="text"
-					placeholder={'Identifier'}
-					value={identifier}
-					onChange={(e) => setIdentifier(e.target.value)}
-				/>
-				<input
-					type="password"
-					placeholder={'Password'}
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-				<button className="login" onClick={(e) => submitLogin(e)}>
-					Valid
+		<div className='loginScreen'>
+			<div className='formContainer'>
+				<form className="form">
+					<div className="formInput">
+						<input
+							type="text"
+							placeholder={'Identifier'}
+							value={identifier}
+							onChange={(e) => setIdentifier(e.target.value)}
+						/>
+						<input
+							type="password"
+							placeholder={'Password'}
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<button className="loginButton" onClick={(e) => submitLogin(e)}>
+						Valid
 				</button>
+				</form>
 			</div>
-		</form>
+		</div>
 	);
 };
 

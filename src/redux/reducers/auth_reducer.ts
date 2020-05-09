@@ -20,6 +20,11 @@ export const authReducer = (state = initialState, action: IAction) => {
 				...state,
 				tokenSession: action.payload,
 			};
+		case Auth.LOGOUT:
+			return {
+				...state,
+				tokenSession: null,
+			}
 		default:
 			return state;
 	}
