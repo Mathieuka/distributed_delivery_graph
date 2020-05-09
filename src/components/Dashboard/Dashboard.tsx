@@ -10,6 +10,18 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dataSorting } from '../../helper/dataRules';
 import TimelinePicker from '../TimelinePicker/TimelinePicker';
+import stockData from './stockData.json';
+
+import {
+	StockChart,
+	ChartTitle,
+	ChartSeries,
+	ChartSeriesItem,
+	ChartNavigator,
+	ChartNavigatorSelect,
+	ChartNavigatorSeries,
+	ChartNavigatorSeriesItem
+} from '@progress/kendo-react-charts';
 
 interface IDashboard {
 	isAuth: boolean;
@@ -76,28 +88,64 @@ const Dashboard: FC<IDashboard> = ({
 		window.location.replace('https://streamroot.io/');
 	};
 
+
+
+	const from = new Date('2009/02/05');
+	const to = new Date('2011/10/07');
+
 	return (
 		<div>
 			{isAuth ? (
-				<div>
-					<div className="buttonContainer">
-						<button onClick={(e) => logout(e)} className="logout">
-							Logout
+			<div>
+				<div className="buttonContainer">
+					<button onClick={(e) => logout(e)} className="logout">
+						Logout
 						</button>
-					</div>
-					<OffloadChart
-						cdnDate={dates_ ? dates_ : []}
-						cdnGbps={cdnGbps_ ? cdnGbps_ : []}
-						p2pGbps={p2pGbps_ ? p2pGbps_ : []}
-						dates={datesToolTip_ ? datesToolTip_ : []}
-					/>
-					<ConcurrentChart audiences={audiences ? audiences : []} />
-					<TimelinePicker
-						timelineRequest={timelineRequest}
-						cdnDate={dates_ ? dates_ : []}
-						p2pGbps={p2pGbps_ ? p2pGbps_ : []}
-					/>
 				</div>
+				<OffloadChart
+					cdnDate={dates_ ? dates_ : []}
+					cdnGbps={cdnGbps_ ? cdnGbps_ : []}
+					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+					dates={datesToolTip_ ? datesToolTip_ : []}
+				/>
+				<ConcurrentChart audiences={audiences ? audiences : []} />
+				<TimelinePicker
+					timelineRequest={timelineRequest}
+					cdnDate={dates_ ? dates_ : []}
+					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+				/>
+				<hr/>
+				<hr/>
+				
+				{/*  just an specific component for Timeline */}
+				<div>
+					<StockChart>
+						<ChartTitle text="Just an example of a component I could have implemented for handling the `Timeline component`  in a concrete project" />
+						<ChartSeries>
+							<ChartSeriesItem
+								data={stockData}
+								type="candlestick"
+								openField="Open"
+								closeField="Close"
+								lowField="Low"
+								highField="High"
+								categoryField="Date"
+							/>
+						</ChartSeries>
+						<ChartNavigator>
+							<ChartNavigatorSelect from={from} to={to} />
+							<ChartNavigatorSeries>
+								<ChartNavigatorSeriesItem
+									data={stockData}
+									type="area"
+									field="Close"
+									categoryField="Date"
+								/>
+							</ChartNavigatorSeries>
+						</ChartNavigator>
+					</StockChart>
+				</div>
+			</div>
 			) : (
 				<div>No Authenticated</div>
 			)}
