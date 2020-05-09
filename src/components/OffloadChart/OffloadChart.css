@@ -4,16 +4,11 @@
     height: 0%;
 }
 
-/* .k-dialog-wrapper .k-dialog {
-    margin-top: -250px;
-    position: absolute;
-} */
 .k-dialog-wrapper .k-dialog {
     margin-top: -22%;
     position: absolute;
     margin-left: 28%;
 }
-
 
 .k-window-content, .k-prompt-container {
     height: 90px;
@@ -23,9 +18,10 @@
     width: 15%;
     border-width: 1px;
     border: solid;
+    border-radius: 10px;
     position: absolute;
     z-index: 1000;
-    /* margin-left: 1253px; */
+    margin-left: 10%;
     background: #fff;
-    margin-top: 80px;
+    margin-top: 19px;
 }

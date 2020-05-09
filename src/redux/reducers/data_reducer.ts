@@ -1,8 +1,8 @@
 import { Data } from '../actions/type';
 import {
 	convertUnixDateToHumanDate,
-    convertBytesToGbps,
-} from '../../helper/formatData';
+	convertBytesToGbps,
+} from '../../helper/converter';
 
 interface IInitialState {
 	cdn: {
@@ -26,11 +26,11 @@ interface IAction {
 const initialState: IInitialState = {
 	cdn: {
 		date: null,
-		gbps: null
+		gbps: null,
 	},
 	p2p: {
 		date: null,
-		gbps: null
+		gbps: null,
 	},
 };
 
@@ -42,15 +42,15 @@ export const dataReducer = (state = initialState, action: IAction) => {
 				cdn: {
 					date: [...convertUnixDateToHumanDate(action.payload.bandwidth.cdn)],
 					gbps: [...convertBytesToGbps(action.payload.bandwidth.cdn)],
-                },
-                p2p: {
-                    date: [...convertUnixDateToHumanDate(action.payload.bandwidth.p2p)],
+				},
+				p2p: {
+					date: [...convertUnixDateToHumanDate(action.payload.bandwidth.p2p)],
 					gbps: [...convertBytesToGbps(action.payload.bandwidth.p2p)],
-                },
+				},
 				bandwidthSum: {
-                    cdn: convertBytesToGbps(action.payload.bandwidthSum.cdn),
-                    p2p: convertBytesToGbps(action.payload.bandwidthSum.p2p),
-                } 
+					cdn: convertBytesToGbps(action.payload.bandwidthSum.cdn),
+					p2p: convertBytesToGbps(action.payload.bandwidthSum.p2p),
+				},
 			};
 		default:
 			return state;

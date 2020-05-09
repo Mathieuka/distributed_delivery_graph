@@ -228,9 +228,6 @@ const mockDates_100_resultExpected = [
 
 
 describe('Define the data rules to display the dashboard correctly', ()=> {
-    test('[Case:: data.length < 37 ] Should return the same array', () => { 
-        expect(dataSorting(mockDates_lengthEqual33, null, null).dates).toEqual(mockDates_33_resultExpected)
-    });
 
     test('[Case:: data.length > 37 && data.lenght < 82] Should return one value out of 2 from the original table', () => { 
         expect(dataSorting(mockDate_lengthEqual57, null, null).datesSorted).toEqual(mockDates_57_resultExpected)

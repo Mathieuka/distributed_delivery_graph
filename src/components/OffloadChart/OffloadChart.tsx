@@ -1,87 +1,149 @@
-import React, { FC, useState, useMemo } from 'react'
+import React, { FC, useState, useMemo, useEffect } from 'react';
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import './OffloadChart.css';
-import { Dialog } from '@progress/kendo-react-dialogs';
-import { Tooltip } from '@progress/kendo-react-tooltip';
+import Tooltip from './Tooltip/Tooltip';
 import {
-    Chart,
-    ChartTitle,
-    ChartSeries,
-    ChartSeriesItem,
-    ChartCategoryAxis,
-    ChartCategoryAxisItem,
-    ChartLegend,
-    ChartValueAxis,
-    ChartValueAxisItem
+	Chart,
+	ChartTitle,
+	ChartSeries,
+	ChartSeriesItem,
+	ChartCategoryAxis,
+	ChartCategoryAxisItem,
+	ChartLegend,
+	ChartValueAxis,
+	ChartValueAxisItem,
 } from '@progress/kendo-react-charts';
 
 interface IOffloadChart {
-    cdnDate?: any[],
-    cdnGbps?: any[],
-    p2pGbps?: any[],
+	cdnDate?: any[];
+	cdnGbps?: any[];
+	p2pGbps?: any[];
 }
 
 const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
+	const [tooltipVisible, setTooltipVisible] = useState(false);
+	const [p2pGbpsValue, setP2PGbpsValue] = useState(0);
+	const [cdnGbpsValue, setCdnGbpsValue] = useState(0);
+	const [dateValue, setDateValue] = useState('');
 
-    const [displayDialog, setDisplayDialog] = useState(false);
-    const [tooltipVisible, setTooltipVisible] = useState(false);
-    const [tooltipXPosition, setTooltipXPosition] = useState(1253)
+	// generate the horizontal max line of P2P and CDN
+	let cdnMaxValue: any;
+	let p2pMaxvalue: any;
+	if (cdnGbps && p2pGbps) {
+		let cpCdnGbps = JSON.parse(JSON.stringify(cdnGbps));
+		let cpP2pGbps = JSON.parse(JSON.stringify(p2pGbps));
+		cdnMaxValue = new Array(cpCdnGbps.length);
+		p2pMaxvalue = new Array(cpP2pGbps.length);
+		cdnMaxValue.fill(
+			Math.max(
+				...cpCdnGbps
+					.filter((val: string) => typeof val !== 'string')
+					.map((num: any) => parseInt(num.toFixed(0), 10))
+			),
+			0,
+			45
+		);
+		p2pMaxvalue.fill(
+			Math.max(
+				...cpP2pGbps
+					.filter((val: string) => typeof val !== 'string')
+					.map((num: any) => parseInt(num.toFixed(0), 10))
+			),
+			0,
+			45
+		);
+	}
 
-    const data1 = [57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57];
-    const data2 = [38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,];
+	// handle the informations display in the dialog tooltip window
+	const onPlotAreaHover = (args: any) => {
+		setDateValue(args.category);
+		if (cdnGbps && cdnGbps.indexOf(args.value) > 0) {
+			setCdnGbpsValue(args.value);
+			if (p2pGbps) {
+				setP2PGbpsValue(p2pGbps[cdnGbps.indexOf(args.value)]);
+			}
+		}
+		if (p2pGbps && p2pGbps.indexOf(args.value) > 0) {
+			setP2PGbpsValue(args.value);
+			if (cdnGbps) {
+				setCdnGbpsValue(cdnGbps[p2pGbps.indexOf(args.value)]);
+			}
+		}
+	};
 
-    const dialog = (
-        <div onClick={() => setDisplayDialog(!displayDialog)}>
-            <Dialog title={<div>title</div>} onClose={() => setDisplayDialog(!displayDialog)}>
-                <p style={{ margin: "70px", textAlign: "center" }}>A sample print dialog.</p>
-            </Dialog>
-        </div>
-    )
+	return (
+		<div onClick={() => setTooltipVisible(!tooltipVisible)}>
+			{tooltipVisible ? (
+				<Tooltip
+					dateValue={dateValue}
+					p2pGbpsValue={p2pGbpsValue}
+					cdnGbpsValue={cdnGbpsValue}
+				/>
+			) : null}
 
-    const onPlotAreaHover = (args: any) => {
-        setTooltipXPosition(args.nativeEvent.screenX)
-        console.log('args => ', typeof args.nativeEvent.screenX);
-        console.log(`Category: ${args.category}`);
-        console.log(`Value: ${args.value}`);
-
-    }
-    console.log('tooltipVisible => ', tooltipVisible)
-    return (
-        <div onClick={() => setTooltipVisible(!tooltipVisible)}>
-            {
-                tooltipVisible ?
-                    (<div className='tooltip' style={{ 'marginLeft': tooltipXPosition }}>
-                        <p>Date....</p>
-                        <p>p2p....</p>
-                        <p>http....</p>
-                        <hr />
-                        <p>total....</p>
-                        <p>spike....</p>
-                    </div>)
-                    : null
-            }
-
-            {useMemo(() => (
-                <Chart onSeriesHover={(e) => onPlotAreaHover(e)}>
-                    <ChartLegend visible={true} position={'top'} offsetX={0} offsetY={0} />
-                    <ChartTitle text="CAPACITY OFFLOAD" />
-                    <ChartValueAxis>
-                        <ChartValueAxisItem title={{ text: "Gbps" }} min={0} max={300} />
-                    </ChartValueAxis>
-                    <ChartCategoryAxis>
-                        <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} title={{ text: 'Months' }} />
-                    </ChartCategoryAxis>
-                    <ChartSeries >
-                        <ChartSeriesItem tooltip={{ visible: true }} line={{ style: 'smooth' }} name="Maximum CDN contribution" opacity={0.5} color='purple' type="area" data={p2pGbps} noteTextField="extremum" />
-                        <ChartSeriesItem tooltip={{ visible: true }} line={{ style: 'smooth' }} name="Maximum Troughput" opacity={0.5} color='blue' type="area" data={cdnGbps} noteTextField="extremum" />
-                        {/* <ChartSeriesItem type="line" data={data1} dashType="solid" color='blue' />
-                        <ChartSeriesItem type="line" data={data2} dashType="solid" color='purple' /> */}
-                    </ChartSeries>
-                </Chart>), [cdnDate])}
-        </div>
-    );
-}
-
+			{useMemo(
+				() => (
+					<Chart onSeriesHover={(e) => onPlotAreaHover(e)}>
+						<ChartLegend
+							visible={true}
+							position={'top'}
+							offsetX={0}
+							offsetY={0}
+						/>
+						<ChartTitle text="CAPACITY OFFLOAD" />
+						<ChartValueAxis>
+							<ChartValueAxisItem title={{ text: 'Gbps' }} min={0} max={500} />
+						</ChartValueAxis>
+						<ChartCategoryAxis>
+							<ChartCategoryAxisItem
+								majorGridLines={{ visible: false }}
+								categories={cdnDate}
+								title={{ text: 'Months' }}
+							/>
+						</ChartCategoryAxis>
+						<ChartSeries>
+							<ChartSeriesItem
+								tooltip={{ visible: true }}
+								line={{ style: 'smooth' }}
+								name="Maximum CDN contribution"
+								opacity={0.5}
+								color="purple"
+								type="area"
+								data={p2pGbps}
+								noteTextField="extremum"
+							/>
+							<ChartSeriesItem
+								tooltip={{ visible: true }}
+								line={{ style: 'smooth' }}
+								name="Maximum Troughput"
+								opacity={0.5}
+								color="blue"
+								type="area"
+								data={cdnGbps}
+								noteTextField="extremum"
+							/>
+							<ChartSeriesItem
+								tooltip={{ visible: false }}
+								type="line"
+								data={p2pMaxvalue}
+								dashType="solid"
+								color="blue"
+							/>
+							<ChartSeriesItem
+								tooltip={{ visible: false }}
+								type="line"
+								data={cdnMaxValue}
+								dashType="solid"
+								color="purple"
+							/>
+						</ChartSeries>
+					</Chart>
+				),
+				[cdnDate]
+			)}
+		</div>
+	);
+};
 
 export default OffloadChart;

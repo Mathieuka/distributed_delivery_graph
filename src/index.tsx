@@ -9,14 +9,20 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './redux/reducers/index';
 
-const middleware = [
-  thunk
-]
+const middleware = [thunk];
 
 const composeEnhancers = composeWithDevTools({});
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middleware)));
+const store = createStore(
+	rootReducer,
+	composeEnhancers(applyMiddleware(...middleware))
+);
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('root')
+);
 
 serviceWorker.unregister();

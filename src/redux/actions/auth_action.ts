@@ -8,7 +8,6 @@ export const logInAction = (identifier: string, password: string) => {
 			password,
 		};
 		const response = await axios.post('/auth', body);
-		console.log(response);
 		switch (response.status) {
 			case 200:
 				dispatch({ type: Auth.LOGIN, payload: response.data.session_token });

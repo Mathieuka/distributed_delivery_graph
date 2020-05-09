@@ -30,17 +30,31 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
 
     const minimumFrom = new Date('Wed Apr 22 2020 16:59:58 GMT+0200');
     const maximumTo = new Date();
+    maximumTo.setDate(maximumTo.getDate() - 1)
     const [from, setFrom] = useState(minimumFrom);
     const [to, setTo] = useState(maximumTo);
 
+
     useEffect(() => {
-        
+
         timelineRequest(
             tokenSession,
             { year: 2020, month: 4, day: 22 },
-            { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() }
+            { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() - 1 }
         )
     }, [])
+
+    useEffect(() => {
+        timelineRequest(
+            tokenSession,
+            {
+                year: from.getFullYear(),
+                month: from.getMonth() + 1,
+                day: from.getDate(),
+            },
+            { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() }
+        )
+    }, [from, to])
 
     useEffect(() => {
         if (Date.parse(from.toString()) > Date.parse(to.toString())) {
@@ -51,8 +65,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
     }, [from, to]);
 
 
-
-    const handleMinAndMaxDatePickerTimeline = (
+    const handleMinAndMaxOfDatePickerTimeline = (
         e: Date | null,
         set: (args: any) => void
     ) => {
@@ -68,26 +81,13 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
     };
 
     const handleFrom = (e: Date | null, set: (args: any) => void) => {
-        handleMinAndMaxDatePickerTimeline(e, set);
-        handleTimeline()
+        handleMinAndMaxOfDatePickerTimeline(e, set);
     };
 
     const handleTo = (e: Date | null, set: (args: any) => void) => {
-        handleMinAndMaxDatePickerTimeline(e, set);
-        handleTimeline()
+        handleMinAndMaxOfDatePickerTimeline(e, set);
     };
 
-    const handleTimeline = () => {
-        timelineRequest(
-            tokenSession,
-            {
-                year: from.getFullYear(),
-                month: from.getMonth() + 1,
-                day: from.getDate(),
-            },
-            { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() }
-        )
-    }
     return (
         <div className='timeline'>
             <div className='datePicker'>
@@ -95,21 +95,21 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
                     <DatePicker selected={from} onChange={(e) => handleFrom(e, setFrom)} />
                 </div>
                 <div className='datePicker__input'>
-                    <DatePicker  selected={to} onChange={(e) => handleTo(e, setTo)} />
+                    <DatePicker selected={to} onChange={(e) => handleTo(e, setTo)} />
                 </div>
             </div>
             <div className='chart'>
-                <Chart onSeriesClick={(e) => console.log('click')} >
-                    <ChartArea margin={100} height={150} background='#a6edb9' />
-                    <ChartTitle text="CONCURRENT VIEWERS" />
+                <Chart >
+                    <ChartArea margin={50} height={250} background='#a6edb9' />
+                    <ChartTitle />
                     <ChartValueAxis>
-                        <ChartValueAxisItem title={{ text: "??" }} min={0} max={500} />
+                        <ChartValueAxisItem min={0} max={500} />
                     </ChartValueAxis>
                     <ChartCategoryAxis >
                         <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDate} />
                     </ChartCategoryAxis>
                     <ChartSeries >
-                        <ChartSeriesItem  tooltip={{ visible: true }} style={"smooth"} opacity={0.5} color='#1d7d36' dashType="solid" type="area" data={p2pGbps} />
+                        <ChartSeriesItem tooltip={{ visible: true }} style={"smooth"} opacity={0.5} color='#1d7d36' dashType="solid" type="area" data={p2pGbps} />
                     </ChartSeries>
                 </Chart >
             </div>
