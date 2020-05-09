@@ -18,7 +18,9 @@ interface IDashboard {
 	p2pGbps?: number[];
 	timelineRequest: any;
 	isSmallScreenAction: any;
-	isSmallScreen: any;
+	isSmallScreen: boolean;
+	audiences: number[];
+	datesToolTip: string[];
 }
 
 const Dashboard: FC<IDashboard> = ({
@@ -30,10 +32,13 @@ const Dashboard: FC<IDashboard> = ({
 	timelineRequest,
 	isSmallScreenAction,
 	isSmallScreen,
+	audiences,
+	datesToolTip,
 }) => {
 	let dates_: any;
 	let cdnGbps_: any;
 	let p2pGbps_: any;
+	let datesToolTip_: any;
 
 	// update the number of data display in relation of the screen size
 	window.addEventListener('resize', function () {
@@ -50,13 +55,16 @@ const Dashboard: FC<IDashboard> = ({
 			dates,
 			cdnG,
 			p2pG,
+			datesToolT,
 			datesSorted,
 			cdnGbpsSorted,
 			p2pGbpsSorted,
-		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen);
+			datesToolTipSorted
+		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen, datesToolTip);
 		dates_ = dates ? dates : datesSorted;
 		cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
 		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
+		datesToolTip_ = datesToolT ? datesToolTip : datesToolTipSorted; 
 	}
 
 	return (
@@ -77,10 +85,10 @@ const Dashboard: FC<IDashboard> = ({
 				cdnDate={dates_ ? dates_ : []}
 				cdnGbps={cdnGbps_ ? cdnGbps_ : []}
 				p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+				dates= {datesToolTip_ ? datesToolTip_ : []}
 			/>
 			<ConcurrentChart
-				cdnDate={dates_ ? dates_ : []}
-				p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+				audiences={audiences ? audiences : []}
 			/>
 			<TimelinePicker
 				timelineRequest={timelineRequest}
@@ -96,7 +104,9 @@ const mapStateToProps = (state: any) => {
 		cdnDate: state.dataReducer.cdn.date,
 		cdnGbps: state.dataReducer.cdn.gbps,
 		p2pGbps: state.dataReducer.p2p.gbps,
+		audiences: state.dataReducer.audience?.audiences,
 		isSmallScreen: state.screenReducer.isSmallScreen,
+		datesToolTip: state.dataReducer.dates
 	};
 };
 

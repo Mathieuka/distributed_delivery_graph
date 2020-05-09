@@ -42,7 +42,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
             { year: 2020, month: 4, day: 22 },
             { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() - 1 }
         )
-    }, [])
+    }, []);
 
     useEffect(() => {
         timelineRequest(
@@ -54,9 +54,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
             },
             { year: to.getFullYear(), month: to.getMonth() + 1, day: to.getDate() }
         )
-    }, [from, to])
 
-    useEffect(() => {
         if (Date.parse(from.toString()) > Date.parse(to.toString())) {
             alert("hey buddy ! Is  not Possible ^^'")
             setFrom(minimumFrom);
@@ -100,7 +98,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
             </div>
             <div className='chart'>
                 <Chart >
-                    <ChartArea margin={50} height={250} background='#a6edb9' />
+                    <ChartArea margin={50} height={250} background='#3fcb7e' />
                     <ChartTitle />
                     <ChartValueAxis>
                         <ChartValueAxisItem min={0} max={500} />

@@ -4,7 +4,8 @@ export enum Auth {
 }
 
 export enum Data {
-   GET_BANDWIDTH = 'GET_BANDWIDTH'
+   GET_BANDWIDTH = 'GET_BANDWIDTH',
+   GET_AUDIENCE = 'GET_AUDIENCE'
 }
 
 export enum UI {

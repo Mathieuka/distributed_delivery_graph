@@ -14,14 +14,3 @@
     height: 90px;
 }
 
-.tooltip {
-    width: 15%;
-    border-width: 1px;
-    border: solid;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 1000;
-    margin-left: 10%;
-    background: #fff;
-    margin-top: 19px;
-}

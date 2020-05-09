@@ -1,0 +1,33 @@
+.tooltip {
+    width: 18%;
+    border-width: 1px;
+    border: solid;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+    margin-left: 10%;
+    background: #fff;
+    margin-top: 19px;
+    align-items: end;
+}
+
+.date {
+ font-family: sans-serif;
+ font-weight: bold;
+}
+
+.p2p_value {
+    color: #c42151;
+}
+
+.http_value {
+    color: #12a5ed;
+}
+
+.total_value {
+    color: #3fcb7e;
+}
+
+.spike_value {
+    color: #12a5ed;
+}

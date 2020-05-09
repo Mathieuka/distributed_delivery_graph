@@ -41,3 +41,41 @@ export const getBandwidth_Action = (session_token: string, timeline: any) => {
 		}
 	};
 };
+
+export const getAudience_Action = (session_token: string, timeline: any) => {
+	return async (dispatch: any) => {
+		const audienceBody = {
+			session_token,
+			from: timeline.from,
+			to: timeline.to,
+		};
+		const audienceResponse = await axios.post('/audience', audienceBody);
+		switch (audienceResponse.status) {
+			case 200:
+				dispatch({
+					type: Data.GET_AUDIENCE,
+					payload: audienceResponse.data
+				});
+				break;
+			case 500:
+				throw new Error('Error:: Server Error');
+			case 404:
+				throw new Error('Error:: Not Found');
+			case 403:
+				throw new Error('Error:: forbidden');
+			default:
+				break;
+		}
+	};
+};
+
+
+
+
+
+
+
+
+
+
+

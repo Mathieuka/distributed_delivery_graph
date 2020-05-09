@@ -19,15 +19,16 @@ interface IOffloadChart {
 	cdnDate?: any[];
 	cdnGbps?: any[];
 	p2pGbps?: any[];
+	dates: string[];
 }
 
-const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
+const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, dates }) => {
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 	const [p2pGbpsValue, setP2PGbpsValue] = useState(0);
 	const [cdnGbpsValue, setCdnGbpsValue] = useState(0);
 	const [dateValue, setDateValue] = useState('');
 
-	// generate the horizontal max line of P2P and CDN
+	// Generate the horizontal max line of P2P and CDN
 	let cdnMaxValue: any;
 	let p2pMaxvalue: any;
 	if (cdnGbps && p2pGbps) {
@@ -57,13 +58,21 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 
 	// handle the informations display in the dialog tooltip window
 	const onPlotAreaHover = (args: any) => {
-		setDateValue(args.category);
+		// Set Date value
+		if (dates && cdnGbps && p2pGbps) {
+			dates[cdnGbps?.indexOf(args.dataItem)] ?
+			setDateValue(dates[cdnGbps?.indexOf(args.dataItem)]) : 
+			setDateValue(dates[p2pGbps?.indexOf(args.dataItem)]) 
+		}
+
+		// Set Gbps value for p2p
 		if (cdnGbps && cdnGbps.indexOf(args.value) > 0) {
 			setCdnGbpsValue(args.value);
 			if (p2pGbps) {
 				setP2PGbpsValue(p2pGbps[cdnGbps.indexOf(args.value)]);
 			}
 		}
+		// Set Gbps value for cdn
 		if (p2pGbps && p2pGbps.indexOf(args.value) > 0) {
 			setP2PGbpsValue(args.value);
 			if (cdnGbps) {
@@ -107,8 +116,8 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 								tooltip={{ visible: true }}
 								line={{ style: 'smooth' }}
 								name="Maximum CDN contribution"
-								opacity={0.5}
-								color="purple"
+								opacity={1}
+								color="#12a5ed"
 								type="area"
 								data={p2pGbps}
 								noteTextField="extremum"
@@ -117,8 +126,8 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 								tooltip={{ visible: true }}
 								line={{ style: 'smooth' }}
 								name="Maximum Troughput"
-								opacity={0.5}
-								color="blue"
+								opacity={1}
+								color="#c42151"
 								type="area"
 								data={cdnGbps}
 								noteTextField="extremum"
@@ -128,14 +137,14 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps }) => {
 								type="line"
 								data={p2pMaxvalue}
 								dashType="solid"
-								color="blue"
+								color="green"
 							/>
 							<ChartSeriesItem
 								tooltip={{ visible: false }}
 								type="line"
 								data={cdnMaxValue}
 								dashType="solid"
-								color="purple"
+								color="#c42151"
 							/>
 						</ChartSeries>
 					</Chart>

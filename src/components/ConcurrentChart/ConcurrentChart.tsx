@@ -13,21 +13,20 @@ import {
 } from '@progress/kendo-react-charts';
 
 interface IConcurrentChart {
-	p2pGbps: number[];
-	cdnDate: string[];
+	audiences: number[]
 }
 
-const ConcurrentChart: FC<IConcurrentChart> = ({ cdnDate, p2pGbps }) => {
+const ConcurrentChart: FC<IConcurrentChart> = ({ audiences }) => {
 	return (
 		<Chart>
 			<ChartTitle text="CONCURRENT VIEWERS" />
 			<ChartValueAxis>
-				<ChartValueAxisItem title={{ text: '??' }} min={0} max={500} />
+				<ChartValueAxisItem title={{ text: 'Viewers' }} min={0} max={900000} />
 			</ChartValueAxis>
 			<ChartCategoryAxis>
 				<ChartCategoryAxisItem
 					majorGridLines={{ visible: false }}
-					categories={cdnDate}
+					// categories={cdnDate}
 				/>
 			</ChartCategoryAxis>
 			<ChartSeries>
@@ -35,10 +34,10 @@ const ConcurrentChart: FC<IConcurrentChart> = ({ cdnDate, p2pGbps }) => {
 					tooltip={{ visible: true }}
 					style={'smooth'}
 					opacity={0.5}
-					color="orange"
+					color="#fce4a3"
 					dashType="solid"
 					type="line"
-					data={p2pGbps}
+					data={audiences}
 				/>
 			</ChartSeries>
 		</Chart>

@@ -4,16 +4,17 @@ import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getBandwidth_Action } from '../../redux/actions/data_action';
+import { getBandwidth_Action, getAudience_Action } from '../../redux/actions/data_action';
 import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 interface IApp {
 	tokenSession: string;
 	getBandwidth_Action: any;
+	getAudience_Action: any;
 }
 
-const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
+const App: FC<IApp> = ({ tokenSession, getBandwidth_Action, getAudience_Action }) => {
 	const [isAuth, setIsAuth] = useState(false);
 
 	if (!isAuth && tokenSession) {
@@ -33,6 +34,16 @@ const App: FC<IApp> = ({ tokenSession, getBandwidth_Action }) => {
 				{ year: to.year, month: to.month, day: to.day }
 			)
 		);
+		
+		getAudience_Action(
+			tokenSession,
+			convertHumanDateToUnixTimestamp(
+				{ year: from.year, month: from.month, day: from.day },
+				{ year: to.year, month: to.month, day: to.day }
+			)
+		);
+
+		
 	};
 
 	return (
@@ -62,6 +73,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
 	return bindActionCreators(
 		{
+			getAudience_Action,
 			getBandwidth_Action,
 		},
 		dispatch
