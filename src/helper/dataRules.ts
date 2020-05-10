@@ -2,7 +2,7 @@
 // Just run: npm run test
 let datesSorted;
 const resultGreaterThen35AndLessThen81 = (
-	dates: string[],
+	originalChartData: string[],
 	cdnGbps: number[],
 	p2pGbps: number[],
 	isSmallScreen?: boolean,
@@ -12,7 +12,7 @@ const resultGreaterThen35AndLessThen81 = (
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
 	let completeDatesInStringForTheToolTipSorted: string[] = [];
-	datesSorted = dates
+	datesSorted = originalChartData
 		.map((date, index) => {
 			if (!memoize[date]) {
 				memoize[date] = 1;
@@ -49,7 +49,7 @@ const resultGreaterThen35AndLessThen81 = (
 };
 
 const resultGreaterThen88 = (
-	dates: string[],
+	originalChartData: string[],
 	cdnGbps: number[],
 	p2pGbps: number[],
 	isSmallScreen?: boolean,
@@ -59,7 +59,7 @@ const resultGreaterThen88 = (
 	let p2pGbpsSorted: number[] = [];
 	let completeDatesInStringForTheToolTipSorted: string[] = []; 
 	const memoize: any = {};
-	datesSorted = dates
+	datesSorted = originalChartData
 		.map((val: string, index: number) => {
 			if (!memoize[val]) {
 				memoize[val] = 1;
@@ -78,7 +78,7 @@ const resultGreaterThen88 = (
 
 			if (!isSmallScreen) {
 				// case date.length is greater then 200 we display 2 same days max
-				if (dates.length > 200 && memoize[val] <= 2) {
+				if (originalChartData.length > 200 && memoize[val] <= 2) {
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
@@ -88,7 +88,7 @@ const resultGreaterThen88 = (
 				}
 
 				// case date.length is less then 200 we display 4 same days max
-				if (dates.length < 200 && memoize[val] <= 4) {
+				if (originalChartData.length < 200 && memoize[val] <= 4) {
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
@@ -108,21 +108,21 @@ const resultGreaterThen88 = (
 };
 
 export const dataSorting = (
-	dates: string[],
+	originalChartData: string[],
 	cdnG?: any,
 	p2pG?: any,
 	isSmallScreen?: boolean,
 	completeDatesInStringForTheToolTip_?: string[]
 ): { datesSorted: any; cdnGbpsSorted: any; p2pGbpsSorted: any } | any => {
-	if (dates && dates.length > 30 && dates.length <= 81) {
-		return resultGreaterThen35AndLessThen81(dates, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
+	if (originalChartData && originalChartData.length > 30 && originalChartData.length <= 81) {
+		return resultGreaterThen35AndLessThen81(originalChartData, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
 	}
 
-	if (dates && dates.length > 88) {
-		return resultGreaterThen88(dates, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
+	if (originalChartData && originalChartData.length > 88) {
+		return resultGreaterThen88(originalChartData, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
 	}
 	return {
-		dates,
+		originalChartData,
 		cdnG,
 		p2pG,
 		completeDatesInStringForTheToolTip_

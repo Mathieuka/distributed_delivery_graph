@@ -16,13 +16,13 @@ import {
 } from '@progress/kendo-react-charts';
 
 interface IOffloadChart {
-	cdnDate?: any[];
-	cdnGbps?: any[];
-	p2pGbps?: any[];
+	cdnDatesData?: any[];
+	cdnGbpsData?: any[];
+	p2pGbpsData?: any[];
 	completeDateForTooltip: string[];
 }
 
-const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDateForTooltip }) => {
+const OffloadChart: FC<IOffloadChart> = ({ cdnDatesData, cdnGbpsData, p2pGbpsData, completeDateForTooltip }) => {
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 	const [p2pGbpsValue, setP2PGbpsValue] = useState(0);
 	const [cdnGbpsValue, setCdnGbpsValue] = useState(0);
@@ -31,9 +31,9 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 	// Generate the horizontal max line of P2P and CDN
 	let cdnMaxValue: any;
 	let p2pMaxvalue: any;
-	if (cdnGbps && p2pGbps) {
-		let cpCdnGbps = JSON.parse(JSON.stringify(cdnGbps));
-		let cpP2pGbps = JSON.parse(JSON.stringify(p2pGbps));
+	if (cdnGbpsData && p2pGbpsData) {
+		let cpCdnGbps = JSON.parse(JSON.stringify(cdnGbpsData));
+		let cpP2pGbps = JSON.parse(JSON.stringify(p2pGbpsData));
 		cdnMaxValue = new Array(cpCdnGbps.length);
 		p2pMaxvalue = new Array(cpP2pGbps.length);
 		cdnMaxValue.fill(
@@ -59,24 +59,24 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 	// handle the informations display in the dialog tooltip window
 	const onPlotAreaHover = (args: any) => {
 		// Set Date value
-		if (completeDateForTooltip && cdnGbps && p2pGbps) {
-			completeDateForTooltip[cdnGbps?.indexOf(args.dataItem)] ?
-			setTooltipDate(completeDateForTooltip[cdnGbps?.indexOf(args.dataItem)]) : 
-			setTooltipDate(completeDateForTooltip[p2pGbps?.indexOf(args.dataItem)]) 
+		if (completeDateForTooltip && cdnGbpsData && p2pGbpsData) {
+			completeDateForTooltip[cdnGbpsData?.indexOf(args.dataItem)] ?
+			setTooltipDate(completeDateForTooltip[cdnGbpsData?.indexOf(args.dataItem)]) : 
+			setTooltipDate(completeDateForTooltip[p2pGbpsData?.indexOf(args.dataItem)]) 
 		}
 
 		// Set Gbps value for p2p
-		if (cdnGbps && cdnGbps.indexOf(args.value) > 0) {
+		if (cdnGbpsData && cdnGbpsData.indexOf(args.value) > 0) {
 			setCdnGbpsValue(args.value);
-			if (p2pGbps) {
-				setP2PGbpsValue(p2pGbps[cdnGbps.indexOf(args.value)]);
+			if (p2pGbpsData) {
+				setP2PGbpsValue(p2pGbpsData[cdnGbpsData.indexOf(args.value)]);
 			}
 		}
 		// Set Gbps value for cdn
-		if (p2pGbps && p2pGbps.indexOf(args.value) > 0) {
+		if (p2pGbpsData && p2pGbpsData.indexOf(args.value) > 0) {
 			setP2PGbpsValue(args.value);
-			if (cdnGbps) {
-				setCdnGbpsValue(cdnGbps[p2pGbps.indexOf(args.value)]);
+			if (cdnGbpsData) {
+				setCdnGbpsValue(cdnGbpsData[p2pGbpsData.indexOf(args.value)]);
 			}
 		}
 	};
@@ -107,7 +107,7 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 						<ChartCategoryAxis>
 							<ChartCategoryAxisItem
 								majorGridLines={{ visible: false }}
-								categories={cdnDate}
+								categories={cdnDatesData}
 								title={{ text: 'Months' }}
 							/>
 						</ChartCategoryAxis>
@@ -119,7 +119,7 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 								opacity={1}
 								color="#12a5ed"
 								type="area"
-								data={p2pGbps}
+								data={p2pGbpsData}
 								noteTextField="extremum"
 							/>
 							<ChartSeriesItem
@@ -129,7 +129,7 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 								opacity={1}
 								color="#c42151"
 								type="area"
-								data={cdnGbps}
+								data={cdnGbpsData}
 								noteTextField="extremum"
 							/>
 							<ChartSeriesItem
@@ -149,7 +149,7 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDa
 						</ChartSeries>
 					</Chart>
 				),
-				[cdnDate]
+				[cdnDatesData]
 			)}
 		</div>
 	);

@@ -26,9 +26,9 @@ import {
 interface IDashboard {
 	isAuth: boolean;
 	tokenSession: string;
-	cdnDate?: string[];
-	cdnGbps?: number[];
-	p2pGbps?: number[];
+	cdnDatesData?: string[];
+	cdnGbpsData?: number[];
+	p2pGbpsData?: number[];
 	audiencesData: number[];
 	completeDatesInStringForTheToolTip: string[];
 	isSmallScreen: boolean;
@@ -39,9 +39,9 @@ interface IDashboard {
 const Dashboard: FC<IDashboard> = ({
 	isAuth,
 	tokenSession,
-	cdnDate,
-	cdnGbps,
-	p2pGbps,
+	cdnDatesData,
+	cdnGbpsData,
+	p2pGbpsData,
 	isSmallScreenAction,
 	isSmallScreen,
 	audiencesData,
@@ -63,9 +63,9 @@ const Dashboard: FC<IDashboard> = ({
 	});
 
 	// format data, in relation to the amount of information we want to display
-	if (cdnDate && cdnDate.length) {
+	if (cdnDatesData && cdnDatesData.length) {
 		const {
-			dates,
+			originalChartData,
 			cdnG,
 			p2pG,
 			completeDatesInStringForTheToolTip_,
@@ -73,8 +73,8 @@ const Dashboard: FC<IDashboard> = ({
 			cdnGbpsSorted,
 			p2pGbpsSorted,
 			completeDatesInStringForTheToolTipSorted,
-		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen, completeDatesInStringForTheToolTip);
-		dates_ = dates ? dates : datesSorted;
+		} = dataSorting(cdnDatesData, cdnGbpsData, p2pGbpsData, isSmallScreen, completeDatesInStringForTheToolTip);
+		dates_ = originalChartData ? originalChartData : datesSorted;
 		cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
 		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
 		completeDateForTooltip = completeDatesInStringForTheToolTip_ ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
@@ -101,15 +101,15 @@ const Dashboard: FC<IDashboard> = ({
 						</button>
 				</div>
 				<OffloadChart
-					cdnDate={dates_ ? dates_ : []}
-					cdnGbps={cdnGbps_ ? cdnGbps_ : []}
-					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+					cdnDatesData={dates_ ? dates_ : []}
+					cdnGbpsData={cdnGbps_ ? cdnGbps_ : []}
+					p2pGbpsData={p2pGbps_ ? p2pGbps_ : []}
 					completeDateForTooltip={completeDateForTooltip ? completeDateForTooltip : []}
 				/>
 				<ConcurrentChart audiencesData={audiencesData ? audiencesData : []} />
 				<TimelinePicker
-					cdnDate={dates_ ? dates_ : []}
-					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
+					cdnDatesData={dates_ ? dates_ : []}
+					p2pGbpsData={p2pGbps_ ? p2pGbps_ : []}
 				/>
 				<hr/>
 				<hr/>
@@ -152,9 +152,9 @@ const Dashboard: FC<IDashboard> = ({
 
 const mapStateToProps = (state: any) => {
 	return {
-		cdnDate: state.dataReducer.cdn.date,
-		cdnGbps: state.dataReducer.cdn.gbps,
-		p2pGbps: state.dataReducer.p2p.gbps,
+		cdnDatesData: state.dataReducer.cdn.date,
+		cdnGbpsData: state.dataReducer.cdn.gbps,
+		p2pGbpsData: state.dataReducer.p2p.gbps,
 		audiencesData: state.dataReducer.audience?.audiences,
 		isSmallScreen: state.screenReducer.isSmallScreen,
 		completeDatesInStringForTheToolTip: state.dataReducer.dates,
