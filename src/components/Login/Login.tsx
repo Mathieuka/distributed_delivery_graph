@@ -23,6 +23,7 @@ const Login: FC<ILogin> = ({ logInAction, tokenSession }) => {
 
 	const submitLogin = (e: React.MouseEvent) => {
 		e.preventDefault();
+		// logInAction(identifier, password);
 		logInAction('urtoob', 'ToobRU');
 	};
 

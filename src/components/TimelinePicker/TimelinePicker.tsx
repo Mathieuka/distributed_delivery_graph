@@ -1,11 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import { connect } from 'react-redux';
-
 import 'react-datepicker/dist/react-datepicker.css';
-
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
+import './TimelinePicker.css';
 import {
     Chart,
     ChartTitle,
@@ -17,26 +15,31 @@ import {
     ChartValueAxisItem,
     ChartArea,
 } from '@progress/kendo-react-charts';
-import './TimelinePicker.css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+	getBandwidth_Action,
+	getAudience_Action,
+} from '../../redux/actions/data_action';
+import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
 
 interface ITimelinePicker {
-    timelineRequest: any;
-    tokenSession?: string;
+    tokenSession: string;
     cdnDate: any;
     p2pGbps: any;
+    getBandwidth_Action: any;
+    getAudience_Action: any;
 }
 
-const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cdnDate, p2pGbps }) => {
+const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, cdnDate, p2pGbps, getBandwidth_Action, getAudience_Action  }) => {
 
     const minimumFrom = new Date('Wed Apr 22 2020 16:59:58 GMT+0200');
     const maximumTo = new Date();
     maximumTo.setDate(maximumTo.getDate() - 1)
     const [from, setFrom] = useState(minimumFrom);
     const [to, setTo] = useState(maximumTo);
-
-
+    
     useEffect(() => {
-
         timelineRequest(
             tokenSession,
             { year: 2020, month: 4, day: 22 },
@@ -61,6 +64,29 @@ const TimelinePicker: FC<ITimelinePicker> = ({ timelineRequest, tokenSession, cd
             setTo(maximumTo);
         }
     }, [from, to]);
+
+    // handle timeline
+	const timelineRequest = (
+		tokenSession: string,
+		from: { year: number; month: number; day: number },
+		to: { year: number; month: number; day: number }
+	) => {
+		getBandwidth_Action(
+			tokenSession,
+			convertHumanDateToUnixTimestamp(
+				{ year: from.year, month: from.month, day: from.day },
+				{ year: to.year, month: to.month, day: to.day }
+			)
+		);
+
+		getAudience_Action(
+			tokenSession,
+			convertHumanDateToUnixTimestamp(
+				{ year: from.year, month: from.month, day: from.day },
+				{ year: to.year, month: to.month, day: to.day }
+			)
+		);
+	};
 
 
     const handleMinAndMaxOfDatePickerTimeline = (
@@ -122,5 +148,15 @@ const mapStateToProps = (state: any) => {
     };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+	return bindActionCreators(
+		{
+			getAudience_Action,
+			getBandwidth_Action,
+		},
+		dispatch
+	);
+};
 
-export default connect(mapStateToProps, null)(TimelinePicker);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimelinePicker);

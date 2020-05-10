@@ -2,54 +2,22 @@ import React, { FC, useState } from 'react';
 import './App.css';
 import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-	getBandwidth_Action,
-	getAudience_Action,
-} from '../../redux/actions/data_action';
-import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 interface IApp {
 	tokenSession: string;
-	getBandwidth_Action: any;
-	getAudience_Action: any;
 }
 
 const App: FC<IApp> = ({
 	tokenSession,
-	getBandwidth_Action,
-	getAudience_Action,
 }) => {
+	
 	const [isAuth, setIsAuth] = useState(false);
 
 	if (!isAuth && tokenSession) {
 		setIsAuth(true);
 	}
-
-	// principal Data request handle by timeline
-	const timelineRequest = (
-		tokenSession: string,
-		from: { year: number; month: number; day: number },
-		to: { year: number; month: number; day: number }
-	) => {
-		getBandwidth_Action(
-			tokenSession,
-			convertHumanDateToUnixTimestamp(
-				{ year: from.year, month: from.month, day: from.day },
-				{ year: to.year, month: to.month, day: to.day }
-			)
-		);
-
-		getAudience_Action(
-			tokenSession,
-			convertHumanDateToUnixTimestamp(
-				{ year: from.year, month: from.month, day: from.day },
-				{ year: to.year, month: to.month, day: to.day }
-			)
-		);
-	};
 
 	return (
 		<div className="App">
@@ -61,7 +29,6 @@ const App: FC<IApp> = ({
 					<Dashboard
 						isAuth={isAuth}
 						tokenSession={tokenSession}
-						timelineRequest={timelineRequest}
 					/>
 				</Route>
 			</Router>
@@ -75,14 +42,4 @@ const mapStateToProps = (state: any) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-	return bindActionCreators(
-		{
-			getAudience_Action,
-			getBandwidth_Action,
-		},
-		dispatch
-	);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

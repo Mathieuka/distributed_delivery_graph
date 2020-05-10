@@ -29,7 +29,6 @@ interface IDashboard {
 	cdnDate?: string[];
 	cdnGbps?: number[];
 	p2pGbps?: number[];
-	timelineRequest: any;
 	isSmallScreenAction: any;
 	isSmallScreen: boolean;
 	audiences: number[];
@@ -43,7 +42,6 @@ const Dashboard: FC<IDashboard> = ({
 	cdnDate,
 	cdnGbps,
 	p2pGbps,
-	timelineRequest,
 	isSmallScreenAction,
 	isSmallScreen,
 	audiences,
@@ -110,7 +108,6 @@ const Dashboard: FC<IDashboard> = ({
 				/>
 				<ConcurrentChart audiences={audiences ? audiences : []} />
 				<TimelinePicker
-					timelineRequest={timelineRequest}
 					cdnDate={dates_ ? dates_ : []}
 					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
 				/>
