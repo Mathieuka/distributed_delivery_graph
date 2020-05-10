@@ -1,44 +1,46 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+### Acknowledgement
+
+First of all thank you for the test ^^, because it was a real experience for me. I've never used a data visualization library before.
+
+### Blocking point
+The main difficulty for me during the test was to work with a new library.
+I chose "Kendo UI" because according to the documentation it is rather well integrated in React, but of course I don't know yet which components are best suited for each use case.
+
+### If I had to do it again
+I'll do all the calculations to give on the back-end side and not on the client side, because with a very large dataset, I think that the browser can't be reactive enough because of the number of calculations.
+
+### Optimization side
+We can first of all Lazyload the heaviest components, and especially use selectors (for example from the reselect library) to avoid recalculating the data of our store which can be large.
+
+### Stack
+React
+Typescript
+Webpack (under the hood)
+babel (under the hood)
+Redux
+Redux-Thunk
+React-Router
+Axios
+Jest
+Kendo
+
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `yarn start`
+### server `npm start`
+First run the server on http://localhost:3000
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### client `npm start`
+Login page: http://localhost:3001
+Dashboard page: http://localhost:3001/dashboard
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### `npm test`
+I have tested only dataRules.ts (just to show that i know how to use Jest) 
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Login & Password
+Login: urtoob
+password: ToobRU
