@@ -66,7 +66,7 @@ const Dashboard: FC<IDashboard> = ({
 	if (cdnDatesData && cdnDatesData.length) {
 		const {
 			originalChartData,
-			cdnG,
+			originalCdnGbps,
 			p2pG,
 			completeDatesInStringForTheToolTip_,
 			datesSorted,
@@ -75,7 +75,7 @@ const Dashboard: FC<IDashboard> = ({
 			completeDatesInStringForTheToolTipSorted,
 		} = dataSorting(cdnDatesData, cdnGbpsData, p2pGbpsData, isSmallScreen, completeDatesInStringForTheToolTip);
 		dates_ = originalChartData ? originalChartData : datesSorted;
-		cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
+		cdnGbps_ = originalCdnGbps ? originalCdnGbps : cdnGbpsSorted;
 		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
 		completeDateForTooltip = completeDatesInStringForTheToolTip_ ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
 	}
