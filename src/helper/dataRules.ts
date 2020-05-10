@@ -110,21 +110,21 @@ const resultGreaterThen88 = (
 export const dataSorting = (
 	originalChartData: string[],
 	originalCdnGbps?: any,
-	p2pG?: any,
+	originalP2pGbps?: any,
 	isSmallScreen?: boolean,
-	completeDatesInStringForTheToolTip_?: string[]
+	originalCompleteDatesInStringForTheToolTip?: string[]
 ): { datesSorted: any; cdnGbpsSorted: any; p2pGbpsSorted: any } | any => {
 	if (originalChartData && originalChartData.length > 30 && originalChartData.length <= 81) {
-		return resultGreaterThen35AndLessThen81(originalChartData, originalCdnGbps, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
+		return resultGreaterThen35AndLessThen81(originalChartData, originalCdnGbps, originalP2pGbps, isSmallScreen, originalCompleteDatesInStringForTheToolTip);
 	}
 
 	if (originalChartData && originalChartData.length > 88) {
-		return resultGreaterThen88(originalChartData, originalCdnGbps, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
+		return resultGreaterThen88(originalChartData, originalCdnGbps, originalP2pGbps, isSmallScreen, originalCompleteDatesInStringForTheToolTip);
 	}
 	return {
 		originalChartData,
 		originalCdnGbps,
-		p2pG,
-		completeDatesInStringForTheToolTip_
+		originalP2pGbps,
+		originalCompleteDatesInStringForTheToolTip
 	};
 };

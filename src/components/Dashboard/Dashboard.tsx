@@ -48,9 +48,9 @@ const Dashboard: FC<IDashboard> = ({
 	completeDatesInStringForTheToolTip,
 	logOutAction,
 }) => {
-	let dates_: any;
-	let cdnGbps_: any;
-	let p2pGbps_: any;
+	let ChartDates: any;
+	let cdnGigabitPerSecond: any;
+	let p2pGigabitPerSecond: any;
 	let completeDateForTooltip: any;
 
 	// update the number of data display in relation of the screen size
@@ -67,17 +67,17 @@ const Dashboard: FC<IDashboard> = ({
 		const {
 			originalChartData,
 			originalCdnGbps,
-			p2pG,
-			completeDatesInStringForTheToolTip_,
+			originalP2pGbps,
+			originalCompleteDatesInStringForTheToolTip,
 			datesSorted,
 			cdnGbpsSorted,
 			p2pGbpsSorted,
 			completeDatesInStringForTheToolTipSorted,
 		} = dataSorting(cdnDatesData, cdnGbpsData, p2pGbpsData, isSmallScreen, completeDatesInStringForTheToolTip);
-		dates_ = originalChartData ? originalChartData : datesSorted;
-		cdnGbps_ = originalCdnGbps ? originalCdnGbps : cdnGbpsSorted;
-		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
-		completeDateForTooltip = completeDatesInStringForTheToolTip_ ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
+		ChartDates = originalChartData ? originalChartData : datesSorted;
+		cdnGigabitPerSecond = originalCdnGbps ? originalCdnGbps : cdnGbpsSorted;
+		p2pGigabitPerSecond = originalP2pGbps ? originalP2pGbps : p2pGbpsSorted;
+		completeDateForTooltip = originalCompleteDatesInStringForTheToolTip ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
 	}
 
 	const logout = (e: any) => {
@@ -101,15 +101,15 @@ const Dashboard: FC<IDashboard> = ({
 						</button>
 				</div>
 				<OffloadChart
-					cdnDatesData={dates_ ? dates_ : []}
-					cdnGbpsData={cdnGbps_ ? cdnGbps_ : []}
-					p2pGbpsData={p2pGbps_ ? p2pGbps_ : []}
+					ChartDates={ChartDates ? ChartDates : []}
+					cdnGigabitPerSecond={cdnGigabitPerSecond ? cdnGigabitPerSecond : []}
+					p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
 					completeDateForTooltip={completeDateForTooltip ? completeDateForTooltip : []}
 				/>
 				<ConcurrentChart audiencesData={audiencesData ? audiencesData : []} />
 				<TimelinePicker
-					cdnDatesData={dates_ ? dates_ : []}
-					p2pGbpsData={p2pGbps_ ? p2pGbps_ : []}
+					ChartDates={ChartDates ? ChartDates : []}
+					p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
 				/>
 				<hr/>
 				<hr/>

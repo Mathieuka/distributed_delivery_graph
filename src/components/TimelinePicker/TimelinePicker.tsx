@@ -25,13 +25,13 @@ import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
 
 interface ITimelinePicker {
     tokenSession: string;
-    cdnDatesData: any;
-    p2pGbpsData: any;
+    ChartDates: any;
+    p2pGigabitPerSecond: any;
     getBandwidth_Action: any;
     getAudience_Action: any;
 }
 
-const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, cdnDatesData, p2pGbpsData, getBandwidth_Action, getAudience_Action  }) => {
+const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, ChartDates, p2pGigabitPerSecond, getBandwidth_Action, getAudience_Action  }) => {
 
     const minimumFrom = new Date('Wed Apr 22 2020 16:59:58 GMT+0200');
     const maximumTo = new Date();
@@ -130,10 +130,10 @@ const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, cdnDatesData, p2pGb
                         <ChartValueAxisItem min={0} max={500} />
                     </ChartValueAxis>
                     <ChartCategoryAxis >
-                        <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={cdnDatesData} />
+                        <ChartCategoryAxisItem majorGridLines={{ visible: false }} categories={ChartDates} />
                     </ChartCategoryAxis>
                     <ChartSeries >
-                        <ChartSeriesItem tooltip={{ visible: true }} style={"smooth"} opacity={0.5} color='#1d7d36' dashType="solid" type="area" data={p2pGbpsData} />
+                        <ChartSeriesItem tooltip={{ visible: true }} style={"smooth"} opacity={0.5} color='#1d7d36' dashType="solid" type="area" data={p2pGigabitPerSecond} />
                     </ChartSeries>
                 </Chart >
             </div>
