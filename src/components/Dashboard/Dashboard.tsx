@@ -91,7 +91,7 @@ const Dashboard: FC<IDashboard> = ({
 	const logout = (e: any): void => {
 		e.preventDefault();
 		logOutAction(tokenSession);
-		window.location.replace('https://streamroot.io/');
+		window.location.replace('https://github.com/Mathieuka');
 	};
 
 	const from = new Date('2009/02/05');
