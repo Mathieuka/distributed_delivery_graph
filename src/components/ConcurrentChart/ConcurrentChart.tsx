@@ -13,10 +13,10 @@ import {
 } from '@progress/kendo-react-charts';
 
 interface IConcurrentChart {
-	audiences: number[]
+	audiencesData: number[]
 }
 
-const ConcurrentChart: FC<IConcurrentChart> = ({ audiences }) => {
+const ConcurrentChart: FC<IConcurrentChart> = ({ audiencesData }) => {
 	return (
 		<Chart>
 			<ChartTitle text="CONCURRENT VIEWERS" />
@@ -25,8 +25,7 @@ const ConcurrentChart: FC<IConcurrentChart> = ({ audiences }) => {
 			</ChartValueAxis>
 			<ChartCategoryAxis>
 				<ChartCategoryAxisItem
-					majorGridLines={{ visible: false }}
-					// categories={cdnDate}
+					majorGridLines={{ visible: false }}					
 				/>
 			</ChartCategoryAxis>
 			<ChartSeries>
@@ -37,7 +36,7 @@ const ConcurrentChart: FC<IConcurrentChart> = ({ audiences }) => {
 					color="#fce4a3"
 					dashType="solid"
 					type="line"
-					data={audiences}
+					data={audiencesData}
 				/>
 			</ChartSeries>
 		</Chart>

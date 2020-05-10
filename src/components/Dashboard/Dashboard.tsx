@@ -25,14 +25,14 @@ import {
 
 interface IDashboard {
 	isAuth: boolean;
-	tokenSession: any;
+	tokenSession: string;
 	cdnDate?: string[];
 	cdnGbps?: number[];
 	p2pGbps?: number[];
-	isSmallScreenAction: any;
+	audiencesData: number[];
+	completeDatesInStringForTheToolTip: string[];
 	isSmallScreen: boolean;
-	audiences: number[];
-	datesToolTip: string[];
+	isSmallScreenAction: any;
 	logOutAction: any;
 }
 
@@ -44,14 +44,14 @@ const Dashboard: FC<IDashboard> = ({
 	p2pGbps,
 	isSmallScreenAction,
 	isSmallScreen,
-	audiences,
-	datesToolTip,
+	audiencesData,
+	completeDatesInStringForTheToolTip,
 	logOutAction,
 }) => {
 	let dates_: any;
 	let cdnGbps_: any;
 	let p2pGbps_: any;
-	let datesToolTip_: any;
+	let completeDateForTooltip: any;
 
 	// update the number of data display in relation of the screen size
 	window.addEventListener('resize', function () {
@@ -68,16 +68,16 @@ const Dashboard: FC<IDashboard> = ({
 			dates,
 			cdnG,
 			p2pG,
-			datesToolT,
+			completeDatesInStringForTheToolTip_,
 			datesSorted,
 			cdnGbpsSorted,
 			p2pGbpsSorted,
-			datesToolTipSorted,
-		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen, datesToolTip);
+			completeDatesInStringForTheToolTipSorted,
+		} = dataSorting(cdnDate, cdnGbps, p2pGbps, isSmallScreen, completeDatesInStringForTheToolTip);
 		dates_ = dates ? dates : datesSorted;
 		cdnGbps_ = cdnG ? cdnG : cdnGbpsSorted;
 		p2pGbps_ = p2pG ? p2pG : p2pGbpsSorted;
-		datesToolTip_ = datesToolT ? datesToolTip : datesToolTipSorted;
+		completeDateForTooltip = completeDatesInStringForTheToolTip_ ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
 	}
 
 	const logout = (e: any) => {
@@ -104,9 +104,9 @@ const Dashboard: FC<IDashboard> = ({
 					cdnDate={dates_ ? dates_ : []}
 					cdnGbps={cdnGbps_ ? cdnGbps_ : []}
 					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
-					dates={datesToolTip_ ? datesToolTip_ : []}
+					completeDateForTooltip={completeDateForTooltip ? completeDateForTooltip : []}
 				/>
-				<ConcurrentChart audiences={audiences ? audiences : []} />
+				<ConcurrentChart audiencesData={audiencesData ? audiencesData : []} />
 				<TimelinePicker
 					cdnDate={dates_ ? dates_ : []}
 					p2pGbps={p2pGbps_ ? p2pGbps_ : []}
@@ -155,9 +155,9 @@ const mapStateToProps = (state: any) => {
 		cdnDate: state.dataReducer.cdn.date,
 		cdnGbps: state.dataReducer.cdn.gbps,
 		p2pGbps: state.dataReducer.p2p.gbps,
-		audiences: state.dataReducer.audience?.audiences,
+		audiencesData: state.dataReducer.audience?.audiences,
 		isSmallScreen: state.screenReducer.isSmallScreen,
-		datesToolTip: state.dataReducer.dates,
+		completeDatesInStringForTheToolTip: state.dataReducer.dates,
 	};
 };
 

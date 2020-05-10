@@ -2,16 +2,16 @@ import React, { FC } from 'react';
 import './Tooltip.css';
 
 interface ITooltip {
-	dateValue: string;
+	tooltipDate: string;
     p2pGbpsValue: number;
     cdnGbpsValue: number;
 }
 
-const Tooltip: FC<ITooltip> = ({ dateValue, p2pGbpsValue, cdnGbpsValue,  }) => {
+const Tooltip: FC<ITooltip> = ({ tooltipDate, p2pGbpsValue, cdnGbpsValue,  }) => {
 	return (
 		<div className="tooltip_container">
                 <div className="tooltip">
-					<p className='date'>{dateValue}</p>
+					<p className='date'>{tooltipDate}</p>
 					<p className='p2p'>P2P: <span className='p2p_value'>{p2pGbpsValue}Gbps</span></p>
 					<p className='http'>HTTP:<span className='http_value'>{cdnGbpsValue}Gbps</span></p>
 					<hr />

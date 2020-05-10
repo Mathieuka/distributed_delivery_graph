@@ -11,7 +11,7 @@ const resultGreaterThen35AndLessThen81 = (
 	const memoize: any = {};
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
-	let datesToolTipSorted: string[] = [];
+	let completeDatesInStringForTheToolTipSorted: string[] = [];
 	datesSorted = dates
 		.map((date, index) => {
 			if (!memoize[date]) {
@@ -24,7 +24,7 @@ const resultGreaterThen35AndLessThen81 = (
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					datesToolTipSorted = [...datesToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
 				}
 				return date;
 			}
@@ -33,7 +33,7 @@ const resultGreaterThen35AndLessThen81 = (
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					datesToolTipSorted = [...datesToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
 				}
 
 				return date;
@@ -44,7 +44,7 @@ const resultGreaterThen35AndLessThen81 = (
 		datesSorted,
 		cdnGbpsSorted,
 		p2pGbpsSorted,
-		datesToolTipSorted
+		completeDatesInStringForTheToolTipSorted
 	};
 };
 
@@ -57,7 +57,7 @@ const resultGreaterThen88 = (
 ) => {
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
-	let datesToolTipSorted: string[] = []; 
+	let completeDatesInStringForTheToolTipSorted: string[] = []; 
 	const memoize: any = {};
 	datesSorted = dates
 		.map((val: string, index: number) => {
@@ -71,7 +71,7 @@ const resultGreaterThen88 = (
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					datesToolTipSorted = [...datesToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
 				}
 				return val;
 			}
@@ -82,7 +82,7 @@ const resultGreaterThen88 = (
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-						datesToolTipSorted = [...datesToolTipSorted, datesToolTip[index]];
+						completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
 					}
 					return val;
 				}
@@ -92,7 +92,7 @@ const resultGreaterThen88 = (
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-						datesToolTipSorted = [...datesToolTipSorted, datesToolTip[index]];
+						completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
 					}
 					return val;
 				}
@@ -103,7 +103,7 @@ const resultGreaterThen88 = (
 		datesSorted,
 		cdnGbpsSorted,
 		p2pGbpsSorted,
-		datesToolTipSorted
+		completeDatesInStringForTheToolTipSorted
 	};
 };
 
@@ -112,19 +112,19 @@ export const dataSorting = (
 	cdnG?: any,
 	p2pG?: any,
 	isSmallScreen?: boolean,
-	datesToolT?: string[]
+	completeDatesInStringForTheToolTip_?: string[]
 ): { datesSorted: any; cdnGbpsSorted: any; p2pGbpsSorted: any } | any => {
 	if (dates && dates.length > 30 && dates.length <= 81) {
-		return resultGreaterThen35AndLessThen81(dates, cdnG, p2pG, isSmallScreen, datesToolT);
+		return resultGreaterThen35AndLessThen81(dates, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
 	}
 
 	if (dates && dates.length > 88) {
-		return resultGreaterThen88(dates, cdnG, p2pG, isSmallScreen, datesToolT);
+		return resultGreaterThen88(dates, cdnG, p2pG, isSmallScreen, completeDatesInStringForTheToolTip_);
 	}
 	return {
 		dates,
 		cdnG,
 		p2pG,
-		datesToolT
+		completeDatesInStringForTheToolTip_
 	};
 };

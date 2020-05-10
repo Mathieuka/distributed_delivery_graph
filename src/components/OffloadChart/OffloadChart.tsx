@@ -19,14 +19,14 @@ interface IOffloadChart {
 	cdnDate?: any[];
 	cdnGbps?: any[];
 	p2pGbps?: any[];
-	dates: string[];
+	completeDateForTooltip: string[];
 }
 
-const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, dates }) => {
+const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, completeDateForTooltip }) => {
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 	const [p2pGbpsValue, setP2PGbpsValue] = useState(0);
 	const [cdnGbpsValue, setCdnGbpsValue] = useState(0);
-	const [dateValue, setDateValue] = useState('');
+	const [tooltipDate, setTooltipDate] = useState('');
 
 	// Generate the horizontal max line of P2P and CDN
 	let cdnMaxValue: any;
@@ -59,10 +59,10 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, dates }) =
 	// handle the informations display in the dialog tooltip window
 	const onPlotAreaHover = (args: any) => {
 		// Set Date value
-		if (dates && cdnGbps && p2pGbps) {
-			dates[cdnGbps?.indexOf(args.dataItem)] ?
-			setDateValue(dates[cdnGbps?.indexOf(args.dataItem)]) : 
-			setDateValue(dates[p2pGbps?.indexOf(args.dataItem)]) 
+		if (completeDateForTooltip && cdnGbps && p2pGbps) {
+			completeDateForTooltip[cdnGbps?.indexOf(args.dataItem)] ?
+			setTooltipDate(completeDateForTooltip[cdnGbps?.indexOf(args.dataItem)]) : 
+			setTooltipDate(completeDateForTooltip[p2pGbps?.indexOf(args.dataItem)]) 
 		}
 
 		// Set Gbps value for p2p
@@ -85,7 +85,7 @@ const OffloadChart: FC<IOffloadChart> = ({ cdnDate, cdnGbps, p2pGbps, dates }) =
 		<div onClick={() => setTooltipVisible(!tooltipVisible)}>
 			{tooltipVisible ? (
 				<Tooltip
-					dateValue={dateValue}
+					tooltipDate={tooltipDate}
 					p2pGbpsValue={p2pGbpsValue}
 					cdnGbpsValue={cdnGbpsValue}
 				/>
