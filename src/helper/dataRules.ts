@@ -24,7 +24,10 @@ const resultGreaterThen35AndLessThen81 = (
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [
+						...completeDatesInStringForTheToolTipSorted,
+						datesToolTip[index],
+					];
 				}
 				return date;
 			}
@@ -33,7 +36,10 @@ const resultGreaterThen35AndLessThen81 = (
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [
+						...completeDatesInStringForTheToolTipSorted,
+						datesToolTip[index],
+					];
 				}
 
 				return date;
@@ -44,7 +50,7 @@ const resultGreaterThen35AndLessThen81 = (
 		datesSorted,
 		cdnGbpsSorted,
 		p2pGbpsSorted,
-		completeDatesInStringForTheToolTipSorted
+		completeDatesInStringForTheToolTipSorted,
 	};
 };
 
@@ -57,7 +63,7 @@ const resultGreaterThen88 = (
 ) => {
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
-	let completeDatesInStringForTheToolTipSorted: string[] = []; 
+	let completeDatesInStringForTheToolTipSorted: string[] = [];
 	const memoize: any = {};
 	datesSorted = originalChartData
 		.map((val: string, index: number) => {
@@ -67,11 +73,14 @@ const resultGreaterThen88 = (
 				memoize[val] = memoize[val] + 1;
 			}
 
-			if (isSmallScreen && memoize[val] <= 1) {				
+			if (isSmallScreen && memoize[val] <= 1) {
 				if (cdnGbps && p2pGbps && datesToolTip) {
 					cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 					p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-					completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
+					completeDatesInStringForTheToolTipSorted = [
+						...completeDatesInStringForTheToolTipSorted,
+						datesToolTip[index],
+					];
 				}
 				return val;
 			}
@@ -82,7 +91,10 @@ const resultGreaterThen88 = (
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-						completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
+						completeDatesInStringForTheToolTipSorted = [
+							...completeDatesInStringForTheToolTipSorted,
+							datesToolTip[index],
+						];
 					}
 					return val;
 				}
@@ -92,7 +104,10 @@ const resultGreaterThen88 = (
 					if (cdnGbps && p2pGbps && datesToolTip) {
 						cdnGbpsSorted = [...cdnGbpsSorted, cdnGbps[index]];
 						p2pGbpsSorted = [...p2pGbpsSorted, p2pGbps[index]];
-						completeDatesInStringForTheToolTipSorted = [...completeDatesInStringForTheToolTipSorted, datesToolTip[index]];
+						completeDatesInStringForTheToolTipSorted = [
+							...completeDatesInStringForTheToolTipSorted,
+							datesToolTip[index],
+						];
 					}
 					return val;
 				}
@@ -103,7 +118,7 @@ const resultGreaterThen88 = (
 		datesSorted,
 		cdnGbpsSorted,
 		p2pGbpsSorted,
-		completeDatesInStringForTheToolTipSorted
+		completeDatesInStringForTheToolTipSorted,
 	};
 };
 
@@ -114,17 +129,33 @@ export const dataSorting = (
 	isSmallScreen?: boolean,
 	originalCompleteDatesInStringForTheToolTip?: string[]
 ): { datesSorted: any; cdnGbpsSorted: any; p2pGbpsSorted: any } | any => {
-	if (originalChartData && originalChartData.length > 30 && originalChartData.length <= 81) {
-		return resultGreaterThen35AndLessThen81(originalChartData, originalCdnGbps, originalP2pGbps, isSmallScreen, originalCompleteDatesInStringForTheToolTip);
+	if (
+		originalChartData &&
+		originalChartData.length > 30 &&
+		originalChartData.length <= 81
+	) {
+		return resultGreaterThen35AndLessThen81(
+			originalChartData,
+			originalCdnGbps,
+			originalP2pGbps,
+			isSmallScreen,
+			originalCompleteDatesInStringForTheToolTip
+		);
 	}
 
 	if (originalChartData && originalChartData.length > 88) {
-		return resultGreaterThen88(originalChartData, originalCdnGbps, originalP2pGbps, isSmallScreen, originalCompleteDatesInStringForTheToolTip);
+		return resultGreaterThen88(
+			originalChartData,
+			originalCdnGbps,
+			originalP2pGbps,
+			isSmallScreen,
+			originalCompleteDatesInStringForTheToolTip
+		);
 	}
 	return {
 		originalChartData,
 		originalCdnGbps,
 		originalP2pGbps,
-		originalCompleteDatesInStringForTheToolTip
+		originalCompleteDatesInStringForTheToolTip,
 	};
 };

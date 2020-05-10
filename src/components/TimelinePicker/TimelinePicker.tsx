@@ -4,6 +4,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import './TimelinePicker.css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
+import {
+	getBandwidth_Action,
+	getAudience_Action,
+} from '../../redux/actions/data_action';
 import {
     Chart,
     ChartTitle,
@@ -15,13 +22,6 @@ import {
     ChartValueAxisItem,
     ChartArea,
 } from '@progress/kendo-react-charts';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {
-	getBandwidth_Action,
-	getAudience_Action,
-} from '../../redux/actions/data_action';
-import { convertHumanDateToUnixTimestamp } from '../../helper/converter';
 
 interface ITimelinePicker {
     tokenSession: string;
@@ -89,37 +89,37 @@ const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, ChartDates, p2pGiga
 	};
 
 
-    const handleMinAndMaxOfDatePickerTimeline = (
-        e: Date | null,
+    const handleRulesForMinAndMaxOfDatePickerTimeline = (
+        datePicked: Date | null,
         set: (args: any) => void
     ) => {
-        if (e && Date.parse(e.toString()) < Date.parse('Wed Apr 22 2020 16:59:58 GMT+0200')) {
+        if (datePicked && Date.parse(datePicked.toString()) < Date.parse('Wed Apr 22 2020 16:59:58 GMT+0200')) {
             alert(`OoPs Buddy! No data before this date ^^'`);
             set(minimumFrom);
-        } else if (e && Date.parse(e.toString()) > Date.parse(new Date().toString())) {
+        } else if (datePicked && Date.parse(datePicked.toString()) > Date.parse(new Date().toString())) {
             alert(`OoPs Buddy! No data after this date ^^'`);
             set(maximumTo);
-        } else if (e) {
-            set(e);
+        } else if (datePicked) {
+            set(datePicked);
         }
     };
 
-    const handleFrom = (e: Date | null, set: (args: any) => void) => {
-        handleMinAndMaxOfDatePickerTimeline(e, set);
+    const handleFrom = (datePicked: Date | null, set: (args: any) => void) => {
+        handleRulesForMinAndMaxOfDatePickerTimeline(datePicked, set);
     };
 
-    const handleTo = (e: Date | null, set: (args: any) => void) => {
-        handleMinAndMaxOfDatePickerTimeline(e, set);
+    const handleTo = (datePicked: Date | null, set: (args: any) => void) => {
+        handleRulesForMinAndMaxOfDatePickerTimeline(datePicked, set);
     };
 
     return (
         <div className='timeline'>
             <div className='datePicker'>
                 <div className='datePicker__input'>
-                    <DatePicker selected={from} onChange={(e) => handleFrom(e, setFrom)} />
+                    <DatePicker selected={from} onChange={(datePicked) => handleFrom(datePicked, setFrom)} />
                 </div>
                 <div className='datePicker__input'>
-                    <DatePicker selected={to} onChange={(e) => handleTo(e, setTo)} />
+                    <DatePicker selected={to} onChange={(datePicked) => handleTo(datePicked, setTo)} />
                 </div>
             </div>
             <div className='chart'>

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC } from 'react';
 import '@progress/kendo-theme-default/dist/all.css';
 import 'hammerjs';
 import './Dashboard.css';
@@ -20,7 +20,7 @@ import {
 	ChartNavigator,
 	ChartNavigatorSelect,
 	ChartNavigatorSeries,
-	ChartNavigatorSeriesItem
+	ChartNavigatorSeriesItem,
 } from '@progress/kendo-react-charts';
 
 interface IDashboard {
@@ -73,11 +73,19 @@ const Dashboard: FC<IDashboard> = ({
 			cdnGbpsSorted,
 			p2pGbpsSorted,
 			completeDatesInStringForTheToolTipSorted,
-		} = dataSorting(cdnDatesData, cdnGbpsData, p2pGbpsData, isSmallScreen, completeDatesInStringForTheToolTip);
+		} = dataSorting(
+			cdnDatesData,
+			cdnGbpsData,
+			p2pGbpsData,
+			isSmallScreen,
+			completeDatesInStringForTheToolTip
+		);
 		ChartDates = originalChartData ? originalChartData : datesSorted;
 		cdnGigabitPerSecond = originalCdnGbps ? originalCdnGbps : cdnGbpsSorted;
 		p2pGigabitPerSecond = originalP2pGbps ? originalP2pGbps : p2pGbpsSorted;
-		completeDateForTooltip = originalCompleteDatesInStringForTheToolTip ? completeDatesInStringForTheToolTip : completeDatesInStringForTheToolTipSorted;
+		completeDateForTooltip = originalCompleteDatesInStringForTheToolTip
+			? completeDatesInStringForTheToolTip
+			: completeDatesInStringForTheToolTipSorted;
 	}
 
 	const logout = (e: any) => {
@@ -86,63 +94,63 @@ const Dashboard: FC<IDashboard> = ({
 		window.location.replace('https://streamroot.io/');
 	};
 
-
-
 	const from = new Date('2009/02/05');
 	const to = new Date('2011/10/07');
 
 	return (
 		<div>
 			{isAuth ? (
-			<div>
-				<div className="buttonContainer">
-					<button onClick={(e) => logout(e)} className="logout">
-						Logout
-						</button>
-				</div>
-				<OffloadChart
-					ChartDates={ChartDates ? ChartDates : []}
-					cdnGigabitPerSecond={cdnGigabitPerSecond ? cdnGigabitPerSecond : []}
-					p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
-					completeDateForTooltip={completeDateForTooltip ? completeDateForTooltip : []}
-				/>
-				<ConcurrentChart audiencesData={audiencesData ? audiencesData : []} />
-				<TimelinePicker
-					ChartDates={ChartDates ? ChartDates : []}
-					p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
-				/>
-				<hr/>
-				<hr/>
-				
-				{/*  just an specific component for Timeline */}
 				<div>
-					<StockChart>
-						<ChartTitle text="Just an example of a component I could have implemented for handling the `Timeline component`  in a concrete project" />
-						<ChartSeries>
-							<ChartSeriesItem
-								data={stockData}
-								type="candlestick"
-								openField="Open"
-								closeField="Close"
-								lowField="Low"
-								highField="High"
-								categoryField="Date"
-							/>
-						</ChartSeries>
-						<ChartNavigator>
-							<ChartNavigatorSelect from={from} to={to} />
-							<ChartNavigatorSeries>
-								<ChartNavigatorSeriesItem
+					<div className="buttonContainer">
+						<button onClick={(e) => logout(e)} className="logout">
+							Logout
+						</button>
+					</div>
+					<OffloadChart
+						ChartDates={ChartDates ? ChartDates : []}
+						cdnGigabitPerSecond={cdnGigabitPerSecond ? cdnGigabitPerSecond : []}
+						p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
+						completeDateForTooltip={
+							completeDateForTooltip ? completeDateForTooltip : []
+						}
+					/>
+					<ConcurrentChart audiencesData={audiencesData ? audiencesData : []} />
+					<TimelinePicker
+						ChartDates={ChartDates ? ChartDates : []}
+						p2pGigabitPerSecond={p2pGigabitPerSecond ? p2pGigabitPerSecond : []}
+					/>
+					<hr />
+					<hr />
+
+					{/*  just an specific component for Timeline */}
+					<div>
+						<StockChart>
+							<ChartTitle text="Just an example of a component I could have implemented for handling the `Timeline component`  in a concrete project" />
+							<ChartSeries>
+								<ChartSeriesItem
 									data={stockData}
-									type="area"
-									field="Close"
+									type="candlestick"
+									openField="Open"
+									closeField="Close"
+									lowField="Low"
+									highField="High"
 									categoryField="Date"
 								/>
-							</ChartNavigatorSeries>
-						</ChartNavigator>
-					</StockChart>
+							</ChartSeries>
+							<ChartNavigator>
+								<ChartNavigatorSelect from={from} to={to} />
+								<ChartNavigatorSeries>
+									<ChartNavigatorSeriesItem
+										data={stockData}
+										type="area"
+										field="Close"
+										categoryField="Date"
+									/>
+								</ChartNavigatorSeries>
+							</ChartNavigator>
+						</StockChart>
+					</div>
 				</div>
-			</div>
 			) : (
 				<div>No Authenticated</div>
 			)}
