@@ -27,8 +27,8 @@ interface IDashboard {
 	isAuth: boolean;
 	tokenSession: string;
 	cdnDatesData?: string[];
-	cdnGbpsData?: number[];
-	p2pGbpsData?: number[];
+	cdnGbpsData: number[];
+	p2pGbpsData: number[];
 	audiencesData: number[];
 	completeDatesInStringForTheToolTip: string[];
 	isSmallScreen: boolean;
@@ -54,7 +54,7 @@ const Dashboard: FC<IDashboard> = ({
 	let completeDateForTooltip: any;
 
 	// update the number of data display in relation of the screen size
-	window.addEventListener('resize', function () {
+	window.addEventListener('resize', function (): void {
 		if (window.innerWidth < 1320) {
 			isSmallScreenAction(true);
 		} else {
@@ -88,7 +88,7 @@ const Dashboard: FC<IDashboard> = ({
 			: completeDatesInStringForTheToolTipSorted;
 	}
 
-	const logout = (e: any) => {
+	const logout = (e: any): void => {
 		e.preventDefault();
 		logOutAction(tokenSession);
 		window.location.replace('https://streamroot.io/');

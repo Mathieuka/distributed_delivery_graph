@@ -4,7 +4,7 @@ import axios from '../../axios';
 export const logInAction = (identifier: string, password: string) => {
 	return async (dispatch: any) => {
 		const body = {
-			identifiant: identifier,
+			identifier: identifier,
 			password,
 		};
 		const response = await axios.post('/auth', body);
@@ -27,10 +27,9 @@ export const logInAction = (identifier: string, password: string) => {
 export const logOutAction = (session_token: string) => {
 	return async (dispatch: any) => {
 		const body = {
-			session_token
+			session_token,
 		};
 		const response = await axios.post('/logout', body);
-		console.log('Logout dispatch response ', response);
 		switch (response.status) {
 			case 200:
 				dispatch({ type: Auth.LOGOUT, payload: response.data.session_token });

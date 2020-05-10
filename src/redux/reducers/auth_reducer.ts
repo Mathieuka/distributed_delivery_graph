@@ -24,7 +24,7 @@ export const authReducer = (state = initialState, action: IAction) => {
 			return {
 				...state,
 				tokenSession: null,
-			}
+			};
 		default:
 			return state;
 	}

@@ -7,7 +7,12 @@ const resultGreaterThen35AndLessThen81 = (
 	p2pGbps: number[],
 	isSmallScreen?: boolean,
 	datesToolTip?: string[]
-) => {
+): {
+	datesSorted: any;
+	cdnGbpsSorted: number[];
+	p2pGbpsSorted: number[];
+	completeDatesInStringForTheToolTipSorted: string[];
+} => {
 	const memoize: any = {};
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
@@ -60,7 +65,12 @@ const resultGreaterThen88 = (
 	p2pGbps: number[],
 	isSmallScreen?: boolean,
 	datesToolTip?: string[]
-) => {
+): {
+	datesSorted: any;
+	cdnGbpsSorted: number[];
+	p2pGbpsSorted: number[];
+	completeDatesInStringForTheToolTipSorted: string[];
+} => {
 	let cdnGbpsSorted: number[] = [];
 	let p2pGbpsSorted: number[] = [];
 	let completeDatesInStringForTheToolTipSorted: string[] = [];
@@ -113,7 +123,7 @@ const resultGreaterThen88 = (
 				}
 			}
 		})
-		.filter((val: any) => val !== undefined);
+		.filter((val: string | undefined) => val !== undefined);
 	return {
 		datesSorted,
 		cdnGbpsSorted,
@@ -124,11 +134,11 @@ const resultGreaterThen88 = (
 
 export const dataSorting = (
 	originalChartData: string[],
-	originalCdnGbps?: any,
-	originalP2pGbps?: any,
-	isSmallScreen?: boolean,
+	originalCdnGbps: number[],
+	originalP2pGbps: number[],
+	isSmallScreen: boolean,
 	originalCompleteDatesInStringForTheToolTip?: string[]
-): { datesSorted: any; cdnGbpsSorted: any; p2pGbpsSorted: any } | any => {
+): any => {
 	if (
 		originalChartData &&
 		originalChartData.length > 30 &&

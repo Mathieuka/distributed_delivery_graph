@@ -2,7 +2,7 @@ import { Data } from './type';
 import axios from '../../axios';
 
 export const getBandwidth_Action = (session_token: string, timeline: any) => {
-	console.log('dispatch getBandwidth_Action')
+	console.log('dispatch getBandwidth_Action');
 	return async (dispatch: any) => {
 		const bandwidthBody = {
 			session_token,
@@ -44,7 +44,7 @@ export const getBandwidth_Action = (session_token: string, timeline: any) => {
 };
 
 export const getAudience_Action = (session_token: string, timeline: any) => {
-	console.log('dispatch getBandwidth_Action')
+	console.log('dispatch getBandwidth_Action');
 	return async (dispatch: any) => {
 		const audienceBody = {
 			session_token,
@@ -56,7 +56,7 @@ export const getAudience_Action = (session_token: string, timeline: any) => {
 			case 200:
 				dispatch({
 					type: Data.GET_AUDIENCE,
-					payload: audienceResponse.data
+					payload: audienceResponse.data,
 				});
 				break;
 			case 500:
@@ -70,14 +70,3 @@ export const getAudience_Action = (session_token: string, timeline: any) => {
 		}
 	};
 };
-
-
-
-
-
-
-
-
-
-
-

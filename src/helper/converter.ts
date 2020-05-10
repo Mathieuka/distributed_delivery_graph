@@ -20,7 +20,9 @@ export const convertHumanDateToUnixTimestamp = (
 	};
 };
 
-export const convertUnixDateToHumanDate = (unixTimestamps: number[]): string[] => {
+export const convertUnixDateToHumanDate = (
+	unixTimestamps: number[]
+): string[] => {
 	const humanDateFormatting = (unix_timestamp: number) => {
 		var date = new Date(unix_timestamp).toString().split(' ');
 		return date[2] + '.' + date[1];

@@ -57,7 +57,7 @@ const OffloadChart: FC<IOffloadChart> = ({ ChartDates, cdnGigabitPerSecond, p2pG
 	}
 
 	// handle the informations display in the dialog tooltip window
-	const onPlotAreaHover = (args: any) => {
+	const onPlotAreaHover = (args: any): void => {
 		// Set Date value
 		if (completeDateForTooltip && cdnGigabitPerSecond && p2pGigabitPerSecond) {
 			completeDateForTooltip[cdnGigabitPerSecond?.indexOf(args.dataItem)] ?

@@ -205,35 +205,35 @@ const mockDates_lengthEqual_100 = [
 
 const mockDates_100_resultExpected = [
 	'23.Apr',
-    '23.Apr',
-    '23.Apr',
-    '23.Apr',
-    '24.Apr',
-    '24.Apr',
-    '24.Apr',
+	'23.Apr',
+	'23.Apr',
+	'23.Apr',
 	'24.Apr',
-    '25.Apr',
-    '25.Apr',
-    '25.Apr',
+	'24.Apr',
+	'24.Apr',
+	'24.Apr',
 	'25.Apr',
-    '26.Apr',
-    '26.Apr',
-    '26.Apr',
+	'25.Apr',
+	'25.Apr',
+	'25.Apr',
 	'26.Apr',
-    '27.Apr',
-    '27.Apr',
-    '27.Apr',
+	'26.Apr',
+	'26.Apr',
+	'26.Apr',
+	'27.Apr',
+	'27.Apr',
+	'27.Apr',
 	'27.Apr',
 ];
 
 
-describe('Define the data rules to display the dashboard correctly', ()=> {
+describe('Define the data rules to display the dashboard correctly', () => {
 
-    test('[Case:: data.length > 37 && data.lenght < 82] Should return one value out of 2 from the original table', () => { 
-        expect(dataSorting(mockDate_lengthEqual57, null, null).datesSorted).toEqual(mockDates_57_resultExpected)
-    })
+	test('[Case:: data.length > 37 && data.lenght < 82] Should return one value out of 2 from the original table', () => {
+		expect(dataSorting(mockDate_lengthEqual57, [], [], false, []).datesSorted).toEqual(mockDates_57_resultExpected)
+	})
 
-    test('[Case:: data.length > 88]  Should return 4 time the same day maximum per response', () => { 
-        expect(dataSorting(mockDates_lengthEqual_100, null, null).datesSorted).toEqual(mockDates_100_resultExpected)
-    })
+	test('[Case:: data.length > 88]  Should return 4 time the same day maximum per response', () => {
+		expect(dataSorting(mockDates_lengthEqual_100, [], [], false, []).datesSorted).toEqual(mockDates_100_resultExpected)
+	})
 })

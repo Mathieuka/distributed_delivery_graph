@@ -70,7 +70,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, ChartDates, p2pGiga
 		tokenSession: string,
 		from: { year: number; month: number; day: number },
 		to: { year: number; month: number; day: number }
-	) => {
+	): void => {
 		getBandwidth_Action(
 			tokenSession,
 			convertHumanDateToUnixTimestamp(
@@ -92,7 +92,7 @@ const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, ChartDates, p2pGiga
     const handleRulesForMinAndMaxOfDatePickerTimeline = (
         datePicked: Date | null,
         set: (args: any) => void
-    ) => {
+    ): void => {
         if (datePicked && Date.parse(datePicked.toString()) < Date.parse('Wed Apr 22 2020 16:59:58 GMT+0200')) {
             alert(`OoPs Buddy! No data before this date ^^'`);
             set(minimumFrom);
@@ -104,11 +104,11 @@ const TimelinePicker: FC<ITimelinePicker> = ({ tokenSession, ChartDates, p2pGiga
         }
     };
 
-    const handleFrom = (datePicked: Date | null, set: (args: any) => void) => {
+    const handleFrom = (datePicked: Date | null, set: (args: any) => void): void => {
         handleRulesForMinAndMaxOfDatePickerTimeline(datePicked, set);
     };
 
-    const handleTo = (datePicked: Date | null, set: (args: any) => void) => {
+    const handleTo = (datePicked: Date | null, set: (args: any) => void): void => {
         handleRulesForMinAndMaxOfDatePickerTimeline(datePicked, set);
     };
 

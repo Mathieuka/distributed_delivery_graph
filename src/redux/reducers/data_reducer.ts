@@ -4,8 +4,29 @@ import {
 	convertBytesToGbps,
 } from '../../helper/converter';
 
-const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday', 'Sunday'];
-const months: string[] = ['January', 'Febuary', 'March', ' April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const days: string[] = [
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'thursday',
+	'Friday',
+	'Saturday',
+	'Sunday',
+];
+const months: string[] = [
+	'January',
+	'Febuary',
+	'March',
+	' April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
 
 interface IInitialState {
 	cdn: {
@@ -16,7 +37,7 @@ interface IInitialState {
 		date: null;
 		gbps: null;
 	};
-	audience: null
+	audience: null;
 }
 
 interface IActionBandwidth {
@@ -29,7 +50,7 @@ interface IActionBandwidth {
 
 interface IActionAudience {
 	type: Data;
-	payload: any
+	payload: any;
 }
 
 type IAction = IActionBandwidth | IActionAudience;
@@ -43,7 +64,7 @@ const initialState: IInitialState = {
 		date: null,
 		gbps: null,
 	},
-	audience: null
+	audience: null,
 };
 
 export const dataReducer = (state = initialState, action: IAction) => {
@@ -56,8 +77,10 @@ export const dataReducer = (state = initialState, action: IAction) => {
 				const month: string = months[formattedDate.getMonth()];
 				const date: string = formattedDate.getDate().toString();
 				const year: string = formattedDate.getFullYear().toString();
-				return `${day}, ${month} ${date}, ${year} ${formattedDate.toLocaleTimeString('en-US')}`
-			})
+				return `${day}, ${month} ${date}, ${year} ${formattedDate.toLocaleTimeString(
+					'en-US'
+				)}`;
+			});
 			return {
 				...state,
 				cdn: {
@@ -72,7 +95,7 @@ export const dataReducer = (state = initialState, action: IAction) => {
 				// 	cdn: convertBytesToGbps(action.payload.bandwidthSum.cdn),
 				// 	p2p: convertBytesToGbps(action.payload.bandwidthSum.p2p),
 				// },
-				dates
+				dates,
 			};
 		case Data.GET_AUDIENCE:
 			const { audience } = action.payload;
@@ -80,9 +103,9 @@ export const dataReducer = (state = initialState, action: IAction) => {
 			return {
 				...state,
 				audience: {
-					audiences
-				}
-			}
+					audiences,
+				},
+			};
 		default:
 			return state;
 	}

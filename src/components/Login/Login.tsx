@@ -21,7 +21,7 @@ const Login: FC<ILogin> = ({ logInAction, tokenSession }) => {
 	const [identifier, setIdentifier] = useState('');
 	const [password, setPassword] = useState('');
 
-	const submitLogin = (e: React.MouseEvent) => {
+	const submitLogin = (e: React.MouseEvent): void => {
 		e.preventDefault();
 		// logInAction(identifier, password);
 		logInAction('urtoob', 'ToobRU');
